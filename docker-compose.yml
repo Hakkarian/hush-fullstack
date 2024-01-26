@@ -3,16 +3,16 @@ version: '3.4'
 services:
   api:
     build:
-      context: ../backend
+      context: ./hush-backend
       dockerfile: Dockerfile  # Adjust this according to your Dockerfile location
     ports:
       - "5000:5000"  # Adjust the port mapping if needed
     depends_on:
       - db
     environment:
-      CLOUD_NAME: "your_cloud_name"
-      CLOUD_API_KEY: "your_cloud_api_key"
-      CLOUD_API_SECRET: "your_cloud_api_secret"
+      CLOUD_NAME: "dlw7wjlp3"
+      CLOUD_API_KEY: "824519396937353"
+      CLOUD_API_SECRET: "sAEU2wLub6Gq9Woj8YIiZLKtjpY"
       POSTGRES_HOST: "postgres"
       POSTGRES_DB: "postgres"
       POSTGRES_USER: "postgres"
@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: $=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6!
       POSTGRES_DB: postgres
     ports:
-      - 5432:5432
+      - 5433:5433
     volumes:
       - 'pgdata:/var/lib/postgresql/data'
   weaviate:
@@ -53,6 +53,7 @@ services:
     image: semitechnologies/img2vec-pytorch:resnet50
     environment:
       ENABLE_CUDA: '0'
+
 
 volumes: 
   pgdata: {}
