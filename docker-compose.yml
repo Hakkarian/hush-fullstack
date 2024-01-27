@@ -5,7 +5,7 @@ services:
     container_name: flaskapp
     image: flaskapp:1.0.0
     build:
-      context: ./hush-backend
+      context: ./h-backend
       dockerfile: flask.dockerfile  # Adjust this according to your Dockerfile location
     ports:
       - "5000:5000"  # Adjust the port mapping if needed
@@ -65,7 +65,7 @@ services:
 
   client:
     build:
-      context: ./hush-frontend  # Adjust this path to the location of your React TypeScript app
+      context: ./h-frontend  # Adjust this path to the location of your React TypeScript app
       dockerfile: Dockerfile  # Adjust this according to your React Dockerfile location
     ports:
       - "3000:3000"  # Adjust the port mapping if needed
