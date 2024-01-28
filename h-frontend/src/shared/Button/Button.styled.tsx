@@ -12,6 +12,8 @@ export const ButtonCss = styled.button`
   line-height: 1.2;
   letter-spacing: 0.03em;
 
+  border-radius: 5px;
+
   border: 1px solid ${({ theme }) => theme.colors.firstColor};
   background-color: ${({ theme }) => theme.colors.secondColor};
   color: ${({ theme }) => theme.colors.firstColor};

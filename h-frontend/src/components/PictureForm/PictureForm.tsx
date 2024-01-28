@@ -5,6 +5,7 @@ import ImageSearch from "../ImageSearch";
 import { PictureFormCss } from "./PictureForm.styled";
 import DropFileInput from "shared/DropFileInput";
 import Button from "shared/Button";
+import AddButton from "shared/CustomButton/AddButton";
 
 const PictureForm: React.FC = () => {
   const [image, setImage] = useState<null | File>(null);
@@ -27,6 +28,7 @@ const PictureForm: React.FC = () => {
 
   return (
     <PictureFormCss>
+      <AddButton />
       <ImageSearch />
       <div className="add-image">
         <DropFileInput
@@ -35,13 +37,13 @@ const PictureForm: React.FC = () => {
           name="Add picture"
           onFileChange={handleAddPicture}
         />
-        <Button
+        {/* <Button
           disabled={pictureStore.loading}
           text="Turn simiarity OFF"
           className="button--similarity-off"
           onClick={async () => await pictureStore.deleteSimilarPics()}
         >
-        </Button>
+        </Button> */}
       </div>
     </PictureFormCss>
   );

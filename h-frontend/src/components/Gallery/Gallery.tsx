@@ -4,6 +4,8 @@ import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
 import Loader from "shared/Loader";
 import Button from "shared/Button";
+import EraseButton from "shared/CustomButton/DeleteButton";
+import DeleteButton from "shared/CustomButton/DeleteButton";
 
 const Gallery: React.FC = observer(() => {
   const pics = pictureStore.pictures;
@@ -40,12 +42,7 @@ const Gallery: React.FC = observer(() => {
                 width="300"
                 className="gallery-item__image"
               />
-              <Button text="Delete" disabled={pictureStore.loading}
-                className="gallery-item__button gallery-item__button--delete"
-                onClick={async () =>
-                  await pictureStore.deletePicture(picture[1])
-                }
-              />
+              <EraseButton />
             </li>
           ))}
         {!pictureStore.loading &&
@@ -58,10 +55,11 @@ const Gallery: React.FC = observer(() => {
                 width="300"
                 className="gallery-item__image"
               />
-              <Button text="Delete" disabled={pictureStore.loading}
+              {/* <Button text="Delete" disabled={pictureStore.loading}
                 className="gallery-item__button gallery-item__button--delete"
                 onClick={async () => await pictureStore.deleteSimilarPics()}
-              />
+              /> */}
+              <DeleteButton />
             </li>
           ))}
         <div ref={bottomRef} style={{ height: "10px" }} />

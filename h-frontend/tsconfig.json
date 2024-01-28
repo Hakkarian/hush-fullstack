@@ -19,7 +19,7 @@
     // Raises an error when a switch statement case falls through without a break or return statement.
     "noFallthroughCasesInSwitch": true,
     // Specifies the module system for the compiled code (ES modules in this case).
-    "module": "esnext",
+    "module": "commonJS",
     // Specifies how module dependencies should be resolved.
     "moduleResolution": "node",
     // Allows importing JSON files as modules.
