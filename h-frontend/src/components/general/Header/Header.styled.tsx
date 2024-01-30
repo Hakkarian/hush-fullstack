@@ -4,6 +4,6 @@ export const HeaderCss = styled.header`
     height: 4rem;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 1.5rem;
 `

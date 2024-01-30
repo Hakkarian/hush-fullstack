@@ -16,30 +16,34 @@ export const DropFileInputCss = styled.div`
 
     transition: opacity 250ms ease-in-out, border-radius 250ms ease-in-out;
 
+    &.dragover {
+      opacity: 0.3;
+    }
+
+    & input {
+      opacity: 0;
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      cursor: pointer;
+    }
+
     &:hover {
       opacity: 0.6;
       border-radius: 10px 20px;
     }
   }
 
-  .drop-file-input.dragover {
-    opacity: 0.3;
-  }
-
-  .drop-file-input input {
-    opacity: 0;
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    cursor: pointer;
+  div:nth-child(1) {
+    display: inline-block;
   }
   .drop-file-input__label {
     text-align: center;
     color: purple;
     font-weight: 600;
-    padding: 10px;
+    padding: 50px;
   }
 
   .drop-file-preview {

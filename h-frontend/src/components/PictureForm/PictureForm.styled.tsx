@@ -4,12 +4,13 @@ export const PictureFormCss = styled.div`
   .add-image {
     z-index: 1;
     position: fixed;
-    top: 50%;
-    left: 50%;
+    bottom: 0;
+    left: 0;
+    transform: translate(10%, 0%);
     display: flex;
     flex-direction: column;
 
-    transform: translate(-240%, 80%);
+
   }
 
   .button--similarity-off {

@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
-export const DeleteButtonCss = styled.div`
+export const ButtonCss = styled.div`
   .button-main {
     padding: 0;
     margin: 0;
 
     .btn-bg {
-      width: 100%;
-      ${({ theme }) => theme.utils.flexStyle("column", "center", "center")};
+      ${({ theme }) => theme.utils.flexStyle("column", "center", "")};
 
       &.Ocean {
         .btn-group {
@@ -29,7 +28,7 @@ export const DeleteButtonCss = styled.div`
                 width: 20em;
                 height: 20em;
                 opacity: 0.5;
-                background: white;
+                background: ${({ theme }) => theme.button.roseBg};
                 margin-left: -10em;
                 border-radius: 42.5%;
                 transform-origin: 50% 50%;
@@ -54,39 +53,39 @@ export const DeleteButtonCss = styled.div`
 
           .Coral {
             button {
-              color: yellow;
+              padding: 15px 10px;
+              color: ${({ theme }) => theme.colors.firstColor};
               overflow: hidden;
               position: relative;
               border-radius: 5px;
-              border: 5px solid yellow;
+              border: 5px solid black;
               background: transparent;
               transition: all 1s ease;
 
               span {
                 position: absolute;
                 content: "";
-                top: calc(2em - 0.25px);
-                left: 50%;
-                width: 20em;
-                height: 20em;
-                margin-left: -10em;
+                top: 80%;
+                right: -180%;
+                width: 10em;
+                height: 10em;
                 border-radius: 42.5%;
                 transform-origin: 50% 50%;
                 transition: all 1s ease, top 1.5s ease;
-                background: ${({theme}) => theme.button.waterBg};
+                background: ${({ theme }) => theme.button.waterBg};
 
                 &.Coralwave1 {
-                  background: orange;
+                  background: ${({ theme }) => theme.button.thirdColor};
                   animation: smallwave 3s infinite linear;
                 }
 
                 &.Coralwave2 {
-                  background: blue;
+                  background: ${({ theme }) => theme.button.roseBg};
                   animation: smallwave 4s infinite linear;
                 }
 
                 &.Coralwave3 {
-                  background: orange;
+                  background: ${({ theme }) => theme.colors.fColor};
                   animation: smallwave 5s infinite linear;
                 }
               }
@@ -95,7 +94,9 @@ export const DeleteButtonCss = styled.div`
                 transition: all 1s ease;
 
                 span {
-                  top: 0.5em;
+                  top: 1em;
+                  width: 20em;
+                  height: 20em;
                   transition: all 1s ease, top 1.5s ease;
                 }
               }
@@ -135,14 +136,12 @@ export const DeleteButtonCss = styled.div`
 
   .btn-group {
     @include flex-style(row, space-between, center);
-    max-width: 1200px;
 
     @media screen and (max-width: 480px) {
       @include flex-style(column, space-between, center);
     }
 
     .btn {
-      margin: 0 30px 30px 30px;
       display: block;
     }
 
@@ -187,6 +186,20 @@ export const DeleteButtonCss = styled.div`
       a {
         text-decoration: none;
       }
+    }
+  }
+
+  .vertical-text__list1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .vertical-text__item {
+    color: black;
+
+    p {
+      font-size: 16px;
     }
   }
 `;

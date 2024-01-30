@@ -33,5 +33,5 @@
     "baseUrl": "src"
   },
   // The "include": ["src"] option specifies that only the files in the "src" directory should be included in the compilation process.
-  "include": ["src"]
+  "include": ["src", "./custom.d.ts"]
 }

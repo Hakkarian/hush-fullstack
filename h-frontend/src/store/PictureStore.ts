@@ -30,9 +30,10 @@ class PictureStore {
     });
   }
 
-  async fetchPictures() {
+  async fetchPictures(page: number, per_page: number) {
     this.loading = true
-    const pics = await axios.get<Picture[]>(`${backendUrl}/gallery`);
+    console.log('rendering...')
+    const pics = await axios.get<Picture[]>(`${backendUrl}/gallery?page=${page}&per_page=${per_page}`);
     this.pictures = pics.data;
     this.loading = false
   }

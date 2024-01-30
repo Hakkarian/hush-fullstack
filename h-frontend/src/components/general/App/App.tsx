@@ -11,7 +11,7 @@ const App: FC = () => {
     <Wrapper>
       <Header />
       <Routes>
-        <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/hush-gallery" element={<GalleryPage />} />
         <Route index element={<MainPage />} />
       </Routes>
       <ToTop />

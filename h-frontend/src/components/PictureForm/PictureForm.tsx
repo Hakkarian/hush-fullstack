@@ -1,15 +1,23 @@
 // src/components/AddPictureForm.tsx
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import pictureStore from "../../store/PictureStore";
 import ImageSearch from "../ImageSearch";
 import { PictureFormCss } from "./PictureForm.styled";
 import DropFileInput from "shared/DropFileInput";
-import Button from "shared/Button";
-import AddButton from "shared/CustomButton/AddButton";
+import Button from "shared/CustomButton/Button";
+
+import addImage from "../../icons/add-image.svg";
 
 const PictureForm: React.FC = () => {
-  const [image, setImage] = useState<null | File>(null);
 
+  console.log('hey check', pictureStore.similar.length);
+
+  // useEffect(() => {
+  //   window.addEventListener("reload", deleteSimilarPics);
+  //   return () => {
+  //     window.removeEventListener("reload", deleteSimilarPics);
+  //   }
+  // }, [])
 
   const handleAddPicture = async (file: File) => {
     try {
@@ -26,24 +34,29 @@ const PictureForm: React.FC = () => {
     }
   };
 
+  const deleteSimilarPics = async () => {
+    await pictureStore.deleteSimilarPics();
+  }
+
   return (
     <PictureFormCss>
-      <AddButton />
       <ImageSearch />
       <div className="add-image">
+        {pictureStore.similar.length !== 0 && (
+          <Button
+            text="turn similarity off"
+            mainTheme="Ocean"
+            branchTheme="Coral"
+            onSimilarDeletion={async () => await pictureStore.deleteSimilarPics()}
+          />
+        )}
         <DropFileInput
+          imagePath={addImage}
           size={50}
           borderRadius="50px"
-          name="Add picture"
+          name=""
           onFileChange={handleAddPicture}
         />
-        {/* <Button
-          disabled={pictureStore.loading}
-          text="Turn simiarity OFF"
-          className="button--similarity-off"
-          onClick={async () => await pictureStore.deleteSimilarPics()}
-        >
-        </Button> */}
       </div>
     </PictureFormCss>
   );

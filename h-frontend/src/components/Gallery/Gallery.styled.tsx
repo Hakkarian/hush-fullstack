@@ -12,24 +12,29 @@ export const GalleryCss = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+
+    &:hover {
+      cursor: pointer;
+      &.demo-overlay {
+        opacity: 1;
+      }
+    }
   }
 
   .gallery-item__image {
     position: relative;
 
-    transition: transform 250ms ease-in-out;
+    border-radius: 1rem;
 
-    &:hover {
-      transform: scale(1.015);
-    }
   }
 
   .gallery-item__button {
-
     position: sticky;
     bottom: 0;
   }
 
   .gallery-item__button--delete {
   }
+
 `;

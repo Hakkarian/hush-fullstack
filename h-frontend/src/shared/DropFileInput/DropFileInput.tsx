@@ -1,14 +1,14 @@
 import React, { FC, useRef, useState } from 'react'
 import { DropFileInputCss } from './DropFileInput.styled'
-import uploadImg from "images/cloud-upload.png";
 
 interface IDropFileInput {
   size: number,
   borderRadius: string,
   name: string,
   onFileChange: Function
+  imagePath: string
 }
-const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name = "", onFileChange}) => {
+const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChange, imagePath}) => {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +45,7 @@ const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name = "", onFil
   return (
     <DropFileInputCss>
 
-      <div>{drag ? <p>Please, drag inside.</p> : <p>{name}</p>}</div>
+      <div style={{ width: `${size}%`, textAlign: 'center' }}>{drag ? <p>Please, drag inside.</p> : <p>{name}</p>}</div>
       <div
         className="drop-file-input"
         ref={wrapperRef}
@@ -56,7 +56,7 @@ const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name = "", onFil
         style={{ width: `${size}%`, height: `${size}%`, borderRadius: borderRadius}}
       >
         <div className="drop-file-input__label">
-          <img src={uploadImg} width={`${size / 1.2}%`} alt="upload" />
+          <img src={imagePath} alt='add-file' width={50} />
         </div>
       </div>
     </DropFileInputCss>
