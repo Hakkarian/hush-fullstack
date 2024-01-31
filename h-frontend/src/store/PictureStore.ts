@@ -34,8 +34,9 @@ class PictureStore {
     this.loading = true
     console.log('rendering...')
     const pics = await axios.get<Picture[]>(`${backendUrl}/gallery?page=${page}&per_page=${per_page}`);
+    console.log('picdata', pics.data);
     this.pictures = pics.data;
-    this.loading = false
+    this.loading = false;
   }
 
   async addPicture(file: any) {

@@ -1,4 +1,4 @@
-import React, { LegacyRef, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
@@ -16,50 +16,60 @@ export interface Picture {
 const backendUrl = process.env.REACT_APP_API_URL;
 
 const Gallery: React.FC = observer(() => {
-  let pictures = [...pictureStore.pictures];
-  const similars = pictureStore.similar;
-  const bottomRef = useRef(null);
   const [pics, setPics] = useState([...pictureStore.pictures]);
-  const [sims, setSims] = useState([...similars]);
+  const [sims] = useState([...pictureStore.similar]);
   const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
 
-  console.log(pics, 'pics')
+  console.log("pics ye", pics.length < totalCount);
+  console.log('pics length', pics.length);
+  console.log("totalCount", totalCount);
+  console.log("page", page);
 
-  
-const handleScroll = useCallback(
-  async (e: any) => {
-    if (
-      (e.target! as any).documentElement.scrollHeight -
-        (e.target! as any).documentElement.scrollTop -
-      window.innerHeight < 100
-    ) {
-      setPage((prevPage) => prevPage + 1);
-      await axios.get<Picture[]>(
-        `${backendUrl}/gallery?page=${page}&per_page=${4}`
-      ).then(response => setPics([...pics, ...response.data]))
-    }
-    setFetching(false);
-  },
-  [page]
-  );
-
-  const fetchPictures = async (page: number) => {
-      await axios.get<Picture[]>(
-        `${backendUrl}/gallery?page=${page}&per_page=${4}`
-      ).then(response => setPics(response.data))
-    }
   
   useEffect(() => {
     if (fetching) {
       fetchPictures(page);
+      setPage(page + 1);
     }
   }, [sims, fetching])
 
-useEffect(() => {
-  document.addEventListener("scroll", handleScroll);
-  return () => document.removeEventListener("scroll", handleScroll);
-}, [page]);
+  useEffect(() => {
+    if (!fetching) {
+      document.addEventListener("scroll", handleScroll);
+      return () => document.removeEventListener("scroll", handleScroll);
+    }
+  }, [page, fetching]);
+  
+  
+  const handleScroll = async (e: any) => {
+      if (
+        (e.target! as any).documentElement.scrollHeight -
+        (e.target! as any).documentElement.scrollTop -
+        window.innerHeight <
+        100 && pics.length < totalCount
+      ) {
+        await axios
+          .get(`${backendUrl}/gallery?page=${page}&per_page=${4}`)
+          .then((response) => {
+            setPics([...pics, ...response.data.pics]);
+            setPage(page + 1);
+            setFetching(false);
+          });
+      }
+    }
+
+  const fetchPictures = async (page: number) => {
+    await axios
+      .get(`${backendUrl}/gallery?page=${page}&per_page=${4}`)
+      .then((response) => {
+        setPics(response.data.pics)
+        setTotalCount(response.data.total_count);
+        setFetching(false);
+      });
+    
+  };
 
 
   return (
@@ -68,7 +78,7 @@ useEffect(() => {
         <ul className="gallery-list">
           {pictureStore.loading && <Loader />}
           {!pictureStore.loading &&
-            similars.length === 0 &&
+            sims.length === 0 &&
             pics.length !== 0 &&
             pics.map((picture: any) => (
               <li key={picture[0]} className="gallery-item">
@@ -91,7 +101,7 @@ useEffect(() => {
               </li>
             ))}
           {!pictureStore.loading &&
-            similars.length !== 0 &&
+            sims.length !== 0 &&
             sims.map((sim: { url: string; id: string }) => (
               <li key={sim.id} className="gallery-item">
                 <div className="inner">
@@ -103,14 +113,8 @@ useEffect(() => {
                   />
                 </div>
                 <div className="demo-overlay"></div>
-                {/* <Button text="Delete" disabled={pictureStore.loading}
-                className="gallery-item__button gallery-item__button--delete"
-                onClick={async () => await pictureStore.deleteSimilarPics()}
-              /> */}
               </li>
             ))}
-
-          <div ref={bottomRef} style={{ height: "10px" }} />
         </ul>
     </GalleryCss>
   );
