@@ -9,16 +9,6 @@ import Button from "shared/CustomButton/Button";
 import addImage from "../../icons/add-image.svg";
 
 const PictureForm: React.FC = () => {
-
-  console.log('hey check', pictureStore.similar.length);
-
-  // useEffect(() => {
-  //   window.addEventListener("reload", deleteSimilarPics);
-  //   return () => {
-  //     window.removeEventListener("reload", deleteSimilarPics);
-  //   }
-  // }, [])
-
   const handleAddPicture = async (file: File) => {
     try {
       const picture = new FormData();
@@ -37,6 +27,9 @@ const PictureForm: React.FC = () => {
   const deleteSimilarPics = async () => {
     await pictureStore.deleteSimilarPics();
   }
+
+  
+console.log("similar too", pictureStore.similar.length !== 0);
 
   return (
     <PictureFormCss>

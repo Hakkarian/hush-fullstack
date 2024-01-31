@@ -17,30 +17,34 @@ const backendUrl = process.env.REACT_APP_API_URL;
 
 const Gallery: React.FC = observer(() => {
   const [pics, setPics] = useState([...pictureStore.pictures]);
-  const [sims] = useState([...pictureStore.similar]);
+  const [sims] = useState(pictureStore.similar);
   const [page, setPage] = useState(1);
-  const [fetching, setFetching] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
+  const [fetching, setFetching] = useState(true)
 
-  console.log("pics ye", pics.length < totalCount);
-  console.log('pics length', pics.length);
-  console.log("totalCount", totalCount);
-  console.log("page", page);
-
+  console.log("similar", pictureStore.similar.length !== 0);
   
   useEffect(() => {
+    if (pictureStore.images.length !== 0) {
+      console.log("one for all");
+      setPics([...pics, ...pictureStore.images]);
+      pictureStore.emptyImageBox();
+    }
+    if (pictureStore.similar.length !== 0) {
+      
+    }
     if (fetching) {
       fetchPictures(page);
-      setPage(page + 1);
     }
-  }, [sims, fetching])
+  }, [pictureStore.similar, fetching, pics.length, pictureStore.images.length]);
 
   useEffect(() => {
-    if (!fetching) {
+    console.log("the magic");
+    if (pics.length < pictureStore.totalCount) {
+      console.log("the magic in me")
       document.addEventListener("scroll", handleScroll);
       return () => document.removeEventListener("scroll", handleScroll);
     }
-  }, [page, fetching]);
+  }, [page, pictureStore.totalCount, pics.length]);
   
   
   const handleScroll = async (e: any) => {
@@ -48,26 +52,31 @@ const Gallery: React.FC = observer(() => {
         (e.target! as any).documentElement.scrollHeight -
         (e.target! as any).documentElement.scrollTop -
         window.innerHeight <
-        100 && pics.length < totalCount
+        100 
       ) {
+        console.log("inside of me")
         await axios
           .get(`${backendUrl}/gallery?page=${page}&per_page=${4}`)
           .then((response) => {
+            console.log('very very inside')
             setPics([...pics, ...response.data.pics]);
             setPage(page + 1);
-            setFetching(false);
+            console.log(pics, pics.length);
           });
-      }
+    } 
     }
 
   const fetchPictures = async (page: number) => {
-    await axios
-      .get(`${backendUrl}/gallery?page=${page}&per_page=${4}`)
-      .then((response) => {
-        setPics(response.data.pics)
-        setTotalCount(response.data.total_count);
-        setFetching(false);
-      });
+    await axios.get(`${backendUrl}/gallery?page=${page}&per_page=${4}`).then(async (response) => {
+
+      setPics([...response.data.pics]);
+
+      await pictureStore.addCount(response.data.total_count);
+
+      setFetching(false);
+
+      setPage(page + 1);
+    })
     
   };
 
@@ -78,7 +87,7 @@ const Gallery: React.FC = observer(() => {
         <ul className="gallery-list">
           {pictureStore.loading && <Loader />}
           {!pictureStore.loading &&
-            sims.length === 0 &&
+            pictureStore.similar.length === 0 &&
             pics.length !== 0 &&
             pics.map((picture: any) => (
               <li key={picture[0]} className="gallery-item">
@@ -94,15 +103,17 @@ const Gallery: React.FC = observer(() => {
                   text="Delete"
                   mainTheme="Ocean"
                   branchTheme="Debris"
-                  onSimilarDeletion={async () =>
+                  onSimilarDeletion={async () => {
                     await pictureStore.deletePicture(picture[1])
+                    setPics(pics.filter((pic: any) => pic[1] !== picture[1]))
+                  }
                   }
                 />
               </li>
             ))}
           {!pictureStore.loading &&
-            sims.length !== 0 &&
-            sims.map((sim: { url: string; id: string }) => (
+            pictureStore.similar.length !== 0 &&
+            pictureStore.similar.map((sim: { url: string; id: string }) => (
               <li key={sim.id} className="gallery-item">
                 <div className="inner">
                   <img

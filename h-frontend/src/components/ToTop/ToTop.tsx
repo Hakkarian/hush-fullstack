@@ -3,8 +3,6 @@ import { ToTopCss } from './ToTop.styled';
 
 const ToTop = () => {
     const [isVisible, setIsVisible] = useState(false);
-    
-    console.log('is it visible?', isVisible);
 
     useEffect(() => {
     window.addEventListener("scroll", handleScroll);
