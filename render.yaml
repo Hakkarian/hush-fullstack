@@ -1,8 +1,10 @@
+version: '3.4'
+
 services:
   - type: web
     name: api
-    runtime: docker
-    dockerfilePath: ./h-backend/flask.dockerfile
+    buildCommand: pip install poetry && poetry install && poetry add pyproject.toml
+    startCommand: poetry run python -m backend  # replace with the actual command to start your application
     envVars:
       - key: CLOUD_NAME
         value: "dlw7wjlp3"
@@ -12,7 +14,6 @@ services:
         value: "sAEU2wLub6Gq9Woj8YIiZLKtjpY"
       - key: WEAVIATE_URL
         fromService:
-          type: web
           name: weaviate
           property: "http://weaviate:8080"
       - key: POSTGRE_HOST
@@ -21,30 +22,20 @@ services:
         value: "admin123"
       - key: BASE_ADDRESS
         value: "0.0.0.0"
-    ports:
-      - 5000:5000
-    dependsOn:
-      - name: db
 
   - type: web
     name: client
-    runtime: docker
-    dockerfilePath: ./h-frontend/Dockerfile
+    buildCommand: ./h-frontend
+    startCommand: npm start  # replace with the actual command to start your frontend
     envVars:
       - key: REACT_APP_API_URL
         fromService:
-          type: web
           name: api
-          property: "http://localhost:3000"
-    ports:
-      - 3000:3000
-    dependsOn:
-      - name: api
+          property: "http://localhost:5000"
 
   - type: web
     name: weaviate
-    runtime: docker
-    repo: semitechnologies/weaviate
+    startCommand: ./start_weaviate.sh  # replace with the actual command to start Weaviate
     envVars:
       - key: IMAGE_INFERENCE_API
         value: 'http://i2v-neural:8080'
@@ -60,30 +51,21 @@ services:
         value: 'img2vec-neural'
       - key: CLUSTER_HOSTNAME
         value: 'node1'
-    ports:
-      - 8080:8080
-      - 50051:50051
 
-  - type: web
+  - type: worker
     name: i2v-neural
-    runtime: docker
-    repo: semitechnologies/img2vec-pytorch:resnet50
     envVars:
       - key: ENABLE_CUDA
         value: '0'
 
 databases:
   - name: db
-    databaseName: postgres
+    type: postgres
     user: postgres
     envVars:
       - key: POSTGRES_PASSWORD
         value: "$=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6! "
-    ports:
-      - 5433:5433
-    volumes:
-      - name: pgdata
-        mountPath: /var/lib/postgresql/data
 
 volumes:
   - name: pgdata
+
