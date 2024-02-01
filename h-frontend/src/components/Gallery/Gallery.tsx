@@ -17,11 +17,10 @@ const backendUrl = process.env.REACT_APP_API_URL;
 
 const Gallery: React.FC = observer(() => {
   const [pics, setPics] = useState([...pictureStore.pictures]);
-  const [sims] = useState(pictureStore.similar);
   const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true)
 
-  console.log("similar", pictureStore.similar.length !== 0);
+  console.log("similar", pictureStore.similar.length);
   
   useEffect(() => {
     if (pictureStore.images.length !== 0) {
@@ -115,15 +114,14 @@ const Gallery: React.FC = observer(() => {
             pictureStore.similar.length !== 0 &&
             pictureStore.similar.map((sim: { url: string; id: string }) => (
               <li key={sim.id} className="gallery-item">
-                <div className="inner">
+                <Tilt>
                   <img
                     src={sim.url}
                     alt={sim.id}
                     width="300"
                     className="gallery-item__image"
                   />
-                </div>
-                <div className="demo-overlay"></div>
+                  </Tilt>
               </li>
             ))}
         </ul>

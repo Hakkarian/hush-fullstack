@@ -7,3 +7,4 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 # And finally we can run the nginx command to start the server
 CMD ["nginx", "-g", "daemon off;"]
+

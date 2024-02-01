@@ -18,3 +18,15 @@ root.render(
     </Router>
   </React.StrictMode>
 );
+
+  // nginx:
+  //   image: nginx:stable-alpine
+  //   build:
+  //     context: ./nginx  # Adjust the context path based on your NGINX Dockerfile location
+  //     dockerfile: Dockerfile  # Adjust the Dockerfile name if needed
+  //   ports:
+  //     - "80:80"  # Expose NGINX on port 80
+  //   depends_on:
+  //     - api
+  //   volumes:
+  //     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro

@@ -1,5 +1,5 @@
 // src/components/AddPictureForm.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import pictureStore from "../../store/PictureStore";
 import ImageSearch from "../ImageSearch";
 import { PictureFormCss } from "./PictureForm.styled";
@@ -7,8 +7,21 @@ import DropFileInput from "shared/DropFileInput";
 import Button from "shared/CustomButton/Button";
 
 import addImage from "../../icons/add-image.svg";
+import { observer } from "mobx-react-lite";
 
-const PictureForm: React.FC = () => {
+const PictureForm: React.FC = observer(() => {
+  const [shown, setShown] = useState(false);
+
+  console.log('shown', shown);
+  console.log('similar form', pictureStore.similar.length);
+
+  useEffect(() => {
+    if (pictureStore.similar.length !== 0) {
+      setShown(true);
+    } else {
+      setShown(false)
+    }
+  }, [pictureStore.similar.length])
   const handleAddPicture = async (file: File) => {
     try {
       const picture = new FormData();
@@ -24,10 +37,6 @@ const PictureForm: React.FC = () => {
     }
   };
 
-  const deleteSimilarPics = async () => {
-    await pictureStore.deleteSimilarPics();
-  }
-
   
 console.log("similar too", pictureStore.similar.length !== 0);
 
@@ -35,7 +44,7 @@ console.log("similar too", pictureStore.similar.length !== 0);
     <PictureFormCss>
       <ImageSearch />
       <div className="add-image">
-        {pictureStore.similar.length !== 0 && (
+        {shown && (
           <Button
             text="turn similarity off"
             mainTheme="Ocean"
@@ -53,6 +62,6 @@ console.log("similar too", pictureStore.similar.length !== 0);
       </div>
     </PictureFormCss>
   );
-};
+});
 
 export default PictureForm;

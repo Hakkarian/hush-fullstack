@@ -15,6 +15,9 @@ services:
       CLOUD_NAME: "dlw7wjlp3"
       CLOUD_API_KEY: "824519396937353"
       CLOUD_API_SECRET: "sAEU2wLub6Gq9Woj8YIiZLKtjpY"
+      WEAVIATE_URL: "http://weaviate:8080"
+      POSTGRE_HOST: "host.docker.internal"
+      BASE_ADDRESS: "0.0.0.0"
   db: 
     container_name: db
     image: postgres:13

@@ -8,7 +8,7 @@ from cloudinary.uploader import upload
 import cloudinary.api
 
 from backend.config.postgre_config import configure_postgresql
-from backend.config.weaviate_config import create_weaviate, store_photo, search_similar
+from backend.config.weaviate_config import store_photo, search_similar
 
 gallery_bp = Blueprint("gallery", __name__, url_prefix="/gallery")
 
@@ -16,13 +16,23 @@ conn, cursor = configure_postgresql()
 
 @gallery_bp.route("", methods=["GET"])
 def get_all_pics():
-    cursor.execute("""SELECT * FROM pictures""")
+    page = int(request.args.get("page", 1))
+    per_page = int(request.args.get("per_page", 4))
+
+    offset = (page - 1) * per_page
+    cursor.execute("""SELECT * FROM pictures LIMIT %s OFFSET %s""", (per_page, offset))
 
     pics = cursor.fetchall()
 
+    cursor.execute("""SELECT * FROM pictures""")
+
+    all_pics = cursor.fetchall()
+
     conn.commit()
 
-    return jsonify(pics)
+    response = jsonify({"pics": pics, "total_count": len(all_pics)})
+
+    return response
 
 @gallery_bp.route("/add", methods=["POST"])
 def create_picture():
@@ -36,15 +46,28 @@ def create_picture():
     print("4")
     id = result['public_id']
     print("5")
+
+    images = []
+
     cursor.execute("""
         INSERT INTO pictures (cloudinary_url, cloudinary_id) VALUES (%s, %s)
     """, (url, id))
 
     store_photo(url)
+
+    cursor.execute("""SELECT * FROM pictures WHERE cloudinary_url = %s AND cloudinary_id = %s""", (url, id))
+    image = cursor.fetchone()
+
+    images.append(image)
+
+    cursor.execute("""SELECT COUNT(*) FROM pictures""")
+
+    total_count = cursor.fetchone()[0]
+    response = jsonify({"images": images, "total_count": total_count})
     print("6")
     conn.commit()
 
-    return jsonify("yeah"), 201
+    return response, 201
 
 @gallery_bp.route("/similar", methods=["POST"])
 def similar(): 
@@ -75,11 +98,6 @@ def similar():
 
     return jsonify(images), 201
 
-@gallery_bp.route("/createw", methods=["GET"])
-def weaviate():
-    create_weaviate()
-    return jsonify("Class has been created succesfully")
-
 @gallery_bp.route("/remove", methods=["POST"])
 def remove_picture():
     req = request.json
@@ -92,8 +110,14 @@ def remove_picture():
         DELETE FROM pictures WHERE cloudinary_id = %s
      """, (id,))
 
+    cursor.execute("""SELECT * FROM pictures""")
+
+    pics = cursor.fetchall()
+    total_count = len(pics)
+    response = jsonify(total_count)
+
     conn.commit()
-    return jsonify("Picture has been deleted succesfully")
+    return response
 
 @gallery_bp.route("/return", methods=["POST"])
 def return_to_normal():

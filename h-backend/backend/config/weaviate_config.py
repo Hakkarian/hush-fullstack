@@ -1,12 +1,13 @@
 from weaviate import Client
 import requests
 import base64
-from os import environ
+import os
 # creating a client object to interact with the Weaviate server. It specifies the scheme (http) and the host
 # (localhost:8080) where the Weaviate server is running. This client object can be used to perform
 # various operations such as creating classes, adding data, querying data, etc. */
 
-client = Client("http://localhost:8080")
+weaviate_url = os.getenv("WEAVIATE_URL")
+client = Client(weaviate_url)
 
 
 # The `schemaConfig` object is defining the schema for a class called "Meme" in the Weaviate server.
@@ -34,11 +35,19 @@ schema_config = {
 
 # create a class with specified config
 
-def create_weaviate():
-  client.schema.create_class(schema_config)
+# Check if the class exists in Weaviate
+existing_classes = client.schema.get()
+class_exists = any(schema_class["class"] == "Hush" for schema_class in existing_classes["classes"])
+
+if not class_exists:
+    client.schema.create_class(schema_config)
+
+# If the class doesn't exist, create it
 
 
 def store_photo(image_url):
+  if not class_exists:
+    client.schema.create_class(schema_config)
     # Download image from the URL
     response = requests.get(image_url)
     response.raise_for_status()
@@ -57,6 +66,7 @@ def store_photo(image_url):
 
 
 def search_similar(sample_image_path):
+    
     sourceImage = {"image": sample_image_path}
 
     schema = client.schema.get()
@@ -64,7 +74,7 @@ def search_similar(sample_image_path):
       "Hush", ["image"]
     ).with_near_image(
       sourceImage, encode=False
-    ).with_limit(10).do()    
+    ).with_limit(1).do()    
     print('that is a', schema)
     return weaviate_results["data"]["Get"]["Hush"]
 

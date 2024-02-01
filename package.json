@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@types/babel__generator": "^7.6.8"
+  }
+}
