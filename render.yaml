@@ -1,8 +1,9 @@
-version: '3.4'
+version: '1'
 
 services:
   - type: web
     name: h-backend
+    runtime: docker
     buildCommand: pip install poetry && poetry install && poetry add pyproject.toml
     startCommand: poetry run python -m backend  # replace with the actual command to start your application
     envVars:
@@ -13,9 +14,7 @@ services:
       - key: CLOUD_API_SECRET
         value: "sAEU2wLub6Gq9Woj8YIiZLKtjpY"
       - key: WEAVIATE_URL
-        fromService:
-          name: weaviate
-          property: "https://h-weaviate.onrender.com"
+        value: "https://h-weaviate.onrender.com"
       - key: POSTGRE_HOST
         value: "host.docker.internal"
       - key: POSTGRE_PASSWORD
@@ -25,17 +24,16 @@ services:
 
   - type: web
     name: h-frontend
-    buildCommand: ./h-frontend
+    runtime: docker
+    buildCommand: npm run build
     startCommand: npm start  # replace with the actual command to start your frontend
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          name: api
-          property: "https://hu-backend.onrender.com"
+        value: "https://hu-backend.onrender.com"
 
   - type: web
     name: h-weaviate
-     # replace with the actual command to start Weaviate
+    runtime: docker
     envVars:
       - key: IMAGE_INFERENCE_API
         value: 'https://im2vec-pytorch.onrender.com'
@@ -54,6 +52,7 @@ services:
 
   - type: worker
     name: im2vec-pytorch
+    runtime: docker
     envVars:
       - key: ENABLE_CUDA
         value: '0'
