@@ -2,13 +2,14 @@ import psycopg2
 import os
 
 postgre_host = os.getenv("POSTGRE_HOST")
+postgre_password = os.getenv("POSTGRE_PASSWORD")
 def configure_postgresql():
     # Configure PostgreSQL
     conn = psycopg2.connect(
         host=postgre_host,
         dbname="postgres",
         user="postgres",
-        password="$=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6!",
+        password=postgre_password,
         port=5433
     )
     cursor = conn.cursor()
