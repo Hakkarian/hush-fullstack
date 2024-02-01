@@ -3,7 +3,7 @@ version: '3.4'
 services:
   api:
     container_name: flaskapp
-    image: flaskapp:1.0.0
+    image: ridmy/flaskapp:1.0.0
     build:
       context: ./h-backend
       dockerfile: flask.dockerfile  # Adjust this according to your Dockerfile location
@@ -21,7 +21,7 @@ services:
       BASE_ADDRESS: "0.0.0.0"
   db: 
     container_name: db
-    image: postgres:13
+    image: ridmy/postgres:13
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: $=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6! 
@@ -38,7 +38,7 @@ services:
     - '8080'
     - --scheme
     - http
-    image: semitechnologies/weaviate:1.23.3
+    image: ridmy/weaviate:1.23.3
     ports:
     - 8080:8080
     - 50051:50051
@@ -52,21 +52,9 @@ services:
       ENABLE_MODULES: 'img2vec-neural'
       CLUSTER_HOSTNAME: 'node1'
   i2v-neural:
-    image: semitechnologies/img2vec-pytorch:resnet50
+    image: ridmy/img2vec-pytorch:resnet50
     environment:
       ENABLE_CUDA: '0'
-
-  client:
-    image: ridmy/hush-fullstack-client
-    build:
-      context: ./h-frontend  # Adjust this path to the location of your React TypeScript app
-      dockerfile: Dockerfile  # Adjust this according to your React Dockerfile location
-    ports:
-      - "3000:3000"  # Adjust the port mapping if needed
-    depends_on:
-      - api
-    environment:
-      REACT_APP_API_URL: http://localhost:5000
 
 
 volumes: 
