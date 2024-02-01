@@ -60,12 +60,6 @@ services:
 
 databases:
   - name: db
-    type: postgres
     user: postgres
-    envVars:
-      - key: POSTGRES_PASSWORD
-        value: "$=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6! "
 
-volumes:
-  - name: pgdata
 
