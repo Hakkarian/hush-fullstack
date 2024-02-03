@@ -12,18 +12,18 @@ export const ButtonCss = styled.div`
         .btn-group {
           .Debris {
             button {
-              color: red;
               overflow: hidden;
               position: relative;
-              border-radius: 5px;
-              border: 5px solid red;
+              border-radius: 10px 50px;
+              border: 2px solid black;
               background: transparent;
-              transition: all 2s ease;
+              transition: all 0.5s ease-in-out;
+              color: black;
 
               span {
                 position: absolute;
                 content: "";
-                top: calc(2em - 0.5px);
+                top: 25%;
                 left: 50%;
                 width: 20em;
                 height: 20em;
@@ -38,12 +38,13 @@ export const ButtonCss = styled.div`
 
               &:hover {
                 color: black;
+                border-radius: 50px 10px;
                 border-color: black;
-                transition: all 2s ease;
+                transition: all 2s ease-in-out;
 
                 span {
                   opacity: 1;
-                  top: 0.5em;
+                  top: 55%;
                   background-color: black;
                   transition: all 2s ease, top 1.5s ease;
                 }
@@ -58,15 +59,15 @@ export const ButtonCss = styled.div`
               overflow: hidden;
               position: relative;
               border-radius: 5px;
-              border: 5px solid black;
+              border: 2px solid black;
               background: transparent;
               transition: all 1s ease;
 
               span {
                 position: absolute;
                 content: "";
-                top: 80%;
-                right: -180%;
+                top: 50%;
+                right: -100%;
                 width: 10em;
                 height: 10em;
                 border-radius: 42.5%;
@@ -193,11 +194,11 @@ export const ButtonCss = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex-wrap: wrap;
+    align-content: center;
   }
 
   .vertical-text__item {
-    color: black;
-
     p {
       font-size: 16px;
     }

@@ -5,10 +5,10 @@ interface IDropFileInput {
   size: number,
   borderRadius: string,
   name: string,
-  onFileChange: Function
-  imagePath: string
+  onFileChange: Function,
+  imagePath: string,
 }
-const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChange, imagePath}) => {
+const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChange, imagePath }) => {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +37,6 @@ const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChan
     wrapperRef.current?.classList.remove("dragover");
     const file = e.dataTransfer.files?.[0];
     if (file) {
-      console.log('inside')
      await onFileChange(file)
     }
   }

@@ -3,7 +3,7 @@ version: '3.4'
 services:
   api:
     container_name: flaskapp
-    image: ridmy/flaskapp:1.0.0
+    image: flaskapp:1.0.0
     build:
       context: ./h-backend
       dockerfile: flask.dockerfile  # Adjust this according to your Dockerfile location
@@ -24,7 +24,7 @@ services:
     image: ridmy/postgres:13
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: $=w_$%v7M=`|;[n92}$YJ$8XGTk_hfz6! 
+      POSTGRES_PASSWORD: admin123
       POSTGRES_DB: postgres
     ports:
       - 5433:5433
@@ -55,6 +55,17 @@ services:
     image: ridmy/img2vec-pytorch:resnet50
     environment:
       ENABLE_CUDA: '0'
+  client:
+    image: ridmy/client
+    build:
+      context: ./h-frontend  # Adjust this path to the location of your React TypeScript app
+      dockerfile: Dockerfile  # Adjust this according to your React Dockerfile location
+    ports:
+      - "3000:3000"  # Adjust the port mapping if needed
+    depends_on:
+      - api
+    environment:
+      REACT_APP_API_URL: http://localhost:5000
 
 
 volumes: 

@@ -1,5 +1,6 @@
 // src/stores/PictureStore.ts
 import axios from "axios";
+import { toastPromise } from "constants/toasts";
 import { observable, action, makeObservable, runInAction } from "mobx";
 
 export interface Picture {
@@ -26,6 +27,7 @@ class PictureStore {
     makeObservable(this, {
       pictures: observable,
       similar: observable,
+      images: observable, 
       totalCount: observable,
       addPicture: action,
       deletePicture: action,
@@ -49,29 +51,33 @@ class PictureStore {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const response = await axios.post(`${backendUrl}/gallery/add`, file);
-
-    console.log("picturex", response.data.image);
+    const promise = axios.post(`${backendUrl}/gallery/add`, file);
+    const response = await promise;
 
     runInAction(() => {
       pictureStore.totalCount = response.data.total_count;
       pictureStore.images = response.data.images;
       pictureStore.loading = false;
     });
+
+    toastPromise(promise as Promise<any>, "add");
   }
 
   async deletePicture(public_id: string) {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const response = await axios.post(`${backendUrl}/gallery/remove`, {
+    const promise = axios.post(`${backendUrl}/gallery/remove`, {
       public_id,
     });
+    const response = await promise;
 
     runInAction(() => {
       pictureStore.totalCount = response.data;
       pictureStore.loading = false;
     });
+    toastPromise(
+      promise as Promise<any>, 'delete');
   }
 
   async deleteSimilarPics() {
@@ -79,14 +85,30 @@ class PictureStore {
       pictureStore.loading = true;
     });
     pictureStore.similar.map(
-      async (sim) =>
-        await axios.post(`${backendUrl}/gallery/return`, { public_id: sim.id })
+      async (sim) => {
+        const promise = axios.post(`${backendUrl}/gallery/remove-similar`, {
+          public_id: sim.id,
+        });
+        await promise;
+        toastPromise(promise as Promise<any>, "delete-similar");
+      }
     );
-    console.log("successful");
     runInAction(() => {
       pictureStore.similar = [];
       pictureStore.loading = false;
     });
+  }
+
+  async deletePictures() {
+     runInAction(() => {
+       pictureStore.loading = true;
+     });
+    const response = await axios.get(`${backendUrl}/gallery/remove-pictures`);
+     runInAction(() => {
+       pictureStore.pictures = response.data;
+       pictureStore.loading = false;
+     });
+    window.location.reload();
   }
 
   async searchSimilar(file: File) {
@@ -94,12 +116,9 @@ class PictureStore {
       pictureStore.loading = true;
     });
     const formData = new FormData();
-    console.log("hohere");
     formData.append("image", file);
-    const pics = await axios.post<File>(
-      `${backendUrl}/gallery/similar`,
-      formData
-    );
+    const promise = axios.post(`${backendUrl}/gallery/similar`, formData);
+    const pics = await promise;
     runInAction(() => {
       pictureStore.similar = pics.data as unknown as {
         url: string;
@@ -107,6 +126,9 @@ class PictureStore {
       }[];
       pictureStore.loading = false;
     });
+
+    
+    toastPromise(promise as Promise<any>,"similar");
   }
 }
 

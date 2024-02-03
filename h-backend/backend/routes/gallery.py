@@ -34,7 +34,27 @@ def get_all_pics():
 
     return response
 
-@gallery_bp.route("/add", methods=["POST"])
+@gallery_bp.route("/remove-pictures", methods=["GET"])
+def remove_pictures():
+
+    cursor.execute("""SELECT * FROM pictures""")
+
+    all_pics = cursor.fetchall()
+
+    for pic in all_pics:
+        pic_id = pic[1]
+        cloudinary.uploader.destroy(pic_id)
+
+    cursor.execute("""DELETE FROM pictures""")
+
+    images = []
+
+    conn.commit()
+
+    response = jsonify(images)
+
+    return response
+
 def create_picture():
     print("1")
 
@@ -71,7 +91,6 @@ def create_picture():
 
 @gallery_bp.route("/similar", methods=["POST"])
 def similar(): 
-    print('1')
     uploaded_file = Image.open(request.files['image'].stream)
     if uploaded_file.mode == 'RGBA':
         uploaded_file = uploaded_file.convert('RGB')
@@ -79,21 +98,20 @@ def similar():
     uploaded_file.save(buffer, format="JPEG")
     img_str = base64.b64encode(buffer.getvalue()).decode()
     weaviate_results = search_similar(img_str)
-    print('2')
     images = []
     for idx, obj in enumerate(weaviate_results):
-        print('3')
+
         result = obj["image"]
         # create a file with the result inside, similar to writeFileSync(path, result, "base64")
         file_path = f"result_{idx}.jpg"
-        print('4')
+
         with open(file_path, "wb") as file:
             file.write(base64.b64decode(result))
             result = upload(file_path)
-            print('5')
+
             url = result['url']
             id = result['public_id']
-            print('6')
+
             images.append({'url': url, 'id': id})
 
     return jsonify(images), 201
@@ -119,7 +137,7 @@ def remove_picture():
     conn.commit()
     return response
 
-@gallery_bp.route("/return", methods=["POST"])
+@gallery_bp.route("/remove-similar", methods=["POST"])
 def return_to_normal():
     req = request.json
     id = req.get("public_id")

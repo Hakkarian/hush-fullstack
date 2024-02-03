@@ -5,7 +5,7 @@ import similarImg from "icons/magnifying-glass.svg";
 
 const ImageSearch = () => {
   const handleSearch = async (file: File) => {
-    console.log('outa here')
+    await pictureStore.deleteSimilarPics();
     await pictureStore.searchSimilar(file);
   };
   return (

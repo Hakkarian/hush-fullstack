@@ -46,8 +46,6 @@ if not class_exists:
 
 
 def store_photo(image_url):
-  if not class_exists:
-    client.schema.create_class(schema_config)
     # Download image from the URL
     response = requests.get(image_url)
     response.raise_for_status()
@@ -74,7 +72,7 @@ def search_similar(sample_image_path):
       "Hush", ["image"]
     ).with_near_image(
       sourceImage, encode=False
-    ).with_limit(1).do()    
+    ).with_limit(10).do()    
     print('that is a', schema)
     return weaviate_results["data"]["Get"]["Hush"]
 
