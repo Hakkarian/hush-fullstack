@@ -55,6 +55,7 @@ def remove_pictures():
 
     return response
 
+@gallery_bp.route("/add", methods=["POST"])
 def create_picture():
     print("1")
 
