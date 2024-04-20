@@ -13,7 +13,6 @@ export const GalleryCss = styled.div`
     justify-content: center;
     align-items: center;
 
-
     &:hover {
       cursor: pointer;
       &.demo-overlay {
@@ -27,6 +26,7 @@ export const GalleryCss = styled.div`
 
     border-radius: 1rem;
 
+    width: calc(100% - 2rem);
   }
 
   .gallery-item__button {
@@ -36,5 +36,4 @@ export const GalleryCss = styled.div`
 
   .gallery-item__button--delete {
   }
-
 `;

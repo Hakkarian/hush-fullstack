@@ -86,7 +86,6 @@ const Gallery: React.FC = observer(() => {
                 <img
                   src={picture[2]}
                   alt={picture[1]}
-                  width="300"
                   className="gallery-item__image"
                 />
               </Tilt>
@@ -95,7 +94,7 @@ const Gallery: React.FC = observer(() => {
                 text="Delete"
                 mainTheme="Ocean"
                 branchTheme="Debris"
-                onDeletion={async () => {
+                func={async () => {
                   await pictureStore.deletePicture(picture[1]);
                   setPics(pics.filter((pic: any) => pic[1] !== picture[1]));
                 }}

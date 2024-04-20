@@ -19,14 +19,18 @@ export const ButtonCss = styled.div`
               background: transparent;
               transition: all 0.5s ease-in-out;
               color: black;
+              width: 7rem;
+              height: 3rem;
+
+              font-size: 1rem;
 
               span {
                 position: absolute;
                 content: "";
                 top: 25%;
-                left: 50%;
-                width: 20em;
-                height: 20em;
+                left: 120%;
+                width: 10em;
+                height: 10em;
                 opacity: 0.5;
                 background: ${({ theme }) => theme.button.roseBg};
                 margin-left: -10em;
@@ -37,15 +41,15 @@ export const ButtonCss = styled.div`
               }
 
               &:hover {
-                color: black;
+                color: crimzon;
                 border-radius: 50px 10px;
                 border-color: black;
                 transition: all 2s ease-in-out;
 
                 span {
                   opacity: 1;
-                  top: 55%;
-                  background-color: black;
+                  top: 10%;
+                  background-color: ${({ theme }) => theme.button.black};
                   transition: all 2s ease, top 1.5s ease;
                 }
               }
@@ -179,7 +183,6 @@ export const ButtonCss = styled.div`
       position: relative;
       letter-spacing: 0.1em;
       font-weight: 400;
-      padding: 1rem 3rem 1rem 3rem;
       text-transform: uppercase;
       font-family: "Lato";
       font-size: 1.5em;

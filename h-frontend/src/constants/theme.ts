@@ -9,7 +9,7 @@ const colors = {
 
 const button = {
   red: "#e8574f",
-  black: "#50514f",
+  black: "#000",
 
   waterBg: "#239ed3",
   sandBg: "#ffd740",

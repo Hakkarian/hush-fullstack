@@ -7,10 +7,10 @@ interface IButton extends HTMLAttributes<HTMLDivElement> {
   similarMode: 'similar' | 'normal' | '';
   mainTheme: 'Ocean';
   branchTheme: "Coral" | "Debris";
-  onDeletion: Function;
+  func?: Function;
 }
 
-const DeleteButton: FC<IButton> = ({ text, similarMode, className, mainTheme, branchTheme, onDeletion }) => {
+const DeleteButton: FC<IButton> = ({ text, similarMode, className, mainTheme, branchTheme, func }) => {
     return (
       <ButtonCss>
         <div
@@ -22,16 +22,12 @@ const DeleteButton: FC<IButton> = ({ text, similarMode, className, mainTheme, br
               <div className={`btn-bg ${branchTheme}`}>
                 <button
                   type="button"
-                  onClick={async () => await onDeletion()}
+                  onClick={async () => await (func ? func() : null)}
                   style={{ width: `${similarMode === "normal" && "100px"}` }}
                 >
                   {branchTheme === "Debris" && (
                     <>
-                      <span
-                        className="one"
-                        style={{
-                        }}
-                      ></span>
+                      <span className="one" style={{}}></span>
                       {similarMode === "normal" ? (
                         <>
                           <ul className="vertical-text__list1">
@@ -69,7 +65,7 @@ const DeleteButton: FC<IButton> = ({ text, similarMode, className, mainTheme, br
                                       similarMode === "normal"
                                         ? "white"
                                         : "black"
-                                      }`,
+                                    }`,
                                   }}
                                   key={index}
                                 >

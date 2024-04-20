@@ -40,15 +40,13 @@ const PictureForm: React.FC = observer(() => {
             mainTheme="Ocean"
             branchTheme="Debris"
             similarMode="normal"
-            onDeletion={async () => await pictureStore.deleteSimilarPics()}
           />
         ) : (
           <Button
-            text="delete all pictures"
+            text="open your eyes"
             mainTheme="Ocean"
             branchTheme="Coral"
-            similarMode=""
-            onDeletion={async () => await pictureStore.deletePictures()}
+              similarMode=""
           />
         )}
         <DropFileInput

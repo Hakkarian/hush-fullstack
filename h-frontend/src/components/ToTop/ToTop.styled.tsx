@@ -45,14 +45,17 @@ export const ToTopCss = styled.div`
   }
 
   .arrow {
-    width: 1vw;
-    height: 1vw;
+    width: 10vw;
+    height: 10vw;
+    @media screen and (min-width: 768px) {
+      width: 1vw;
+      height: 1vw;
+    }
     border: 1vw solid;
     border-radius: 0.3rem;
-    border-color: ${({theme}) => theme.colors.firstColor} transparent transparent black;
+    border-color: ${({ theme }) => theme.colors.firstColor} transparent
+      transparent black;
     transform: rotate(135deg);
-
-    
   }
 
   .arrowSliding {
