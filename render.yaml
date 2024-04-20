@@ -48,7 +48,7 @@ services:
       - key: CLUSTER_HOSTNAME
         value: 'node1'
 
-  - type: worker
+  - type: web
     name: im2vec-pytorch
     runtime: docker
     envVars:

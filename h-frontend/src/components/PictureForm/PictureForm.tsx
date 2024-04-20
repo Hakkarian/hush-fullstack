@@ -1,7 +1,6 @@
 // src/components/AddPictureForm.tsx
 import React, { useEffect, useState } from "react";
 import pictureStore from "../../store/PictureStore";
-import ImageSearch from "../ImageSearch";
 import { PictureFormCss } from "./PictureForm.styled";
 import DropFileInput from "shared/DropFileInput";
 import Button from "shared/CustomButton/Button";
@@ -34,7 +33,6 @@ const PictureForm: React.FC = observer(() => {
 
   return (
     <PictureFormCss>
-      <ImageSearch />
       <div className="add-image">
         {shown ? (
           <Button

@@ -51,6 +51,8 @@ export const ToTopCss = styled.div`
     border-radius: 0.3rem;
     border-color: ${({theme}) => theme.colors.firstColor} transparent transparent black;
     transform: rotate(135deg);
+
+    
   }
 
   .arrowSliding {

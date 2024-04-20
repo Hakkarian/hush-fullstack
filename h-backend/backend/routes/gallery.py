@@ -8,7 +8,6 @@ from cloudinary.uploader import upload
 import cloudinary.api
 
 from backend.config.postgre_config import configure_postgresql
-from backend.config.weaviate_config import store_photo, search_similar
 
 gallery_bp = Blueprint("gallery", __name__, url_prefix="/gallery")
 
@@ -74,8 +73,6 @@ def create_picture():
         INSERT INTO pictures (cloudinary_url, cloudinary_id) VALUES (%s, %s)
     """, (url, id))
 
-    store_photo(url)
-
     cursor.execute("""SELECT * FROM pictures WHERE cloudinary_url = %s AND cloudinary_id = %s""", (url, id))
     image = cursor.fetchone()
 
@@ -90,32 +87,6 @@ def create_picture():
 
     return response, 201
 
-@gallery_bp.route("/similar", methods=["POST"])
-def similar(): 
-    uploaded_file = Image.open(request.files['image'].stream)
-    if uploaded_file.mode == 'RGBA':
-        uploaded_file = uploaded_file.convert('RGB')
-    buffer = BytesIO()
-    uploaded_file.save(buffer, format="JPEG")
-    img_str = base64.b64encode(buffer.getvalue()).decode()
-    weaviate_results = search_similar(img_str)
-    images = []
-    for idx, obj in enumerate(weaviate_results):
-
-        result = obj["image"]
-        # create a file with the result inside, similar to writeFileSync(path, result, "base64")
-        file_path = f"result_{idx}.jpg"
-
-        with open(file_path, "wb") as file:
-            file.write(base64.b64decode(result))
-            result = upload(file_path)
-
-            url = result['url']
-            id = result['public_id']
-
-            images.append({'url': url, 'id': id})
-
-    return jsonify(images), 201
 
 @gallery_bp.route("/remove", methods=["POST"])
 def remove_picture():
@@ -137,12 +108,3 @@ def remove_picture():
 
     conn.commit()
     return response
-
-@gallery_bp.route("/remove-similar", methods=["POST"])
-def return_to_normal():
-    req = request.json
-    id = req.get("public_id")
-
-    cloudinary.uploader.destroy(id)
-
-    return jsonify("Removed similarity.")
