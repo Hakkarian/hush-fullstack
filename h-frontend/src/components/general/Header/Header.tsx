@@ -1,11 +1,20 @@
 import React, { FC } from 'react'
 import { HeaderCss } from './Header.styled';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import Modal from 'components/Modal';
 
 const Header: FC = () => {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)'
+  })
+  const isTabletOrMobile = useMediaQuery({
+    query: '(max-width: 1224px)'
+  })
   return (
     <HeaderCss>
-      <ul className="header-list">
+      {isTabletOrMobile && <Modal />}
+      {isDesktopOrLaptop && <ul className="header-list">
         <li className="header-list__item">
           <Link to="/">Home</Link>
         </li>
@@ -18,7 +27,7 @@ const Header: FC = () => {
         <li className="header-list__item">
           <Link to="/teo-gallery">Teo's Gallery</Link>
         </li> */}
-      </ul>
+      </ul>}
     </HeaderCss>
   );
 }
