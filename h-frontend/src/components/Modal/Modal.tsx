@@ -1,21 +1,27 @@
-import React, { useState } from 'react'
-import {ModalCss, BgCss} from './Modal.styled'
+import React, { MouseEventHandler, ReactNode, useState } from 'react'
+import {ModalCss, BgCss, MobileIcon, NavCss, ListCss} from './Modal.styled'
 import MenuIcon from './MenuIcon'
 
-function Modal() {
-    const [click, setClick] = useState(false);
-    console.log("🚀 ~ Modal ~ click:", click)
+interface Props {
+  children: ReactNode;
+  func: MouseEventHandler<HTMLDivElement>;
+  click: boolean;
+}
 
-    const handleClick = () => setClick(!click);
+function Modal({children, func, click}: Props) {
+
 
     return (
       <>
         <ModalCss>
-          <div onClick={handleClick}>
-            <MenuIcon />
+          <div onClick={func}>
+            <MobileIcon />
           </div>
         </ModalCss>
-        <BgCss clicked={click}>&nbsp;</BgCss>
+        <BgCss clicked={click}></BgCss>
+        <NavCss clicked={click}>
+          <ListCss>{children}</ListCss>
+        </NavCss>
       </>
     );
 }
