@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { HeaderCss } from './Header.styled';
+import { HeaderCss, NavLinkCss } from './Header.styled';
 import { useMediaQuery } from 'react-responsive';
 import Modal from 'components/Modal';
 import { NavLink } from 'react-router-dom';
@@ -21,14 +21,24 @@ const Header: FC = () => {
         <Modal func={handleClick} click={click}>
           <ul className="header-list">
             <li className="header-list__item">
-              <NavLink onClick={handleClick} to="/">
+              <NavLinkCss onClick={handleClick} to="/">
                 Home
-              </NavLink>
+              </NavLinkCss>
             </li>
             <li className="header-list__item">
-              <NavLink onClick={handleClick} to="/hush-gallery">
+              <NavLinkCss onClick={handleClick} to="/hush-gallery">
                 Hush's Gallery
-              </NavLink>
+              </NavLinkCss>
+            </li>
+            <li className="header-list__item">
+              <NavLinkCss onClick={handleClick} to="/sign-in">
+                Sign in
+              </NavLinkCss>
+            </li>
+            <li className="header-list__item">
+              <NavLinkCss onClick={handleClick} to="/sign-up">
+                Sign up
+              </NavLinkCss>
             </li>
             {/* <li className="header-list__item">
           <Link to="/risey-gallery">Risey's Gallery</Link>

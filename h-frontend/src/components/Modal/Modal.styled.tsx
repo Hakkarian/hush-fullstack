@@ -51,7 +51,8 @@ export const NavCss = styled.nav<Props>`
 
   z-index: 4;
   opacity: ${({ clicked }) => (clicked ? "1" : "0")};
-  transition: opacity 500ms ease-in;
+  width: ${({ clicked }) => (clicked ? "100%" : "0")};
+  transition: opacity 800ms, width 800ms;
 `;
 
 export const ListCss = styled.ul`
@@ -59,6 +60,7 @@ export const ListCss = styled.ul`
   list-style: none;
   top: 50%;
   left: 50%;
+  width: 15rem;
 
   transform: translate(-50%, -50%);
   text-align: center;
