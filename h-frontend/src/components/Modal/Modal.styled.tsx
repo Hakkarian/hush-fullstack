@@ -14,7 +14,7 @@ export const ModalCss = styled.div`
   height: 5rem;
   width: 5rem;
   cursor: pointer;
-  z-index: 1;
+  z-index: 5;
   box-shadow: 0 1rem 3rem rgba(182, 237, 200, 0.3);
 `;
 
@@ -23,6 +23,7 @@ export const MobileIcon = styled(MenuIcon)`
     padding: 1rem;
     top: 3rem;
     left: 0;
+    z-index: 3;
 `
 
 export const BgCss = styled.div<Props>`
@@ -33,6 +34,7 @@ export const BgCss = styled.div<Props>`
   height: 5rem;
   width: 5rem;
   border-radius: 50%;
+  z-index: 4;
 
   transform: ${({ clicked }) => (clicked ? "scale(80)" : "scale(0)")};
 
@@ -46,6 +48,8 @@ export const NavCss = styled.nav<Props>`
   left: 0;
 
   width: 100%;
+
+  z-index: 4;
   opacity: ${({ clicked }) => (clicked ? "1" : "0")};
   transition: opacity 500ms ease-in;
 `;

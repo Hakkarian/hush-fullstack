@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { MouseEventHandler, useState } from 'react'
 import MenuIconCss from './MenuIcon.styled';
 
-function MenuIcon() {
-    const [isActive, setIsActive] = useState(false);
-    
-    const toggleActive = () => {
-      setIsActive(!isActive);
-    };
+interface Props {
+  clicked: boolean;
+  handleClick: MouseEventHandler<HTMLDivElement>;
+}
 
+function MenuIcon({clicked, handleClick}: Props) {
+    
   return (
     <MenuIconCss>
       <svg>
@@ -29,8 +29,8 @@ function MenuIcon() {
       </svg>
 
       <div
-        className={`plate plate1 ${isActive ? "active" : ""}`}
-        onClick={toggleActive}
+        className={`plate plate1 ${clicked ? "active" : ""}`}
+        onClick={handleClick}
       >
         <svg
           className="burger"

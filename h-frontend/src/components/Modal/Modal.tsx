@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactNode, useState } from 'react'
 import {ModalCss, BgCss, MobileIcon, NavCss, ListCss} from './Modal.styled'
-import MenuIcon from './MenuIcon'
+
 
 interface Props {
   children: ReactNode;
@@ -15,7 +15,7 @@ function Modal({children, func, click}: Props) {
       <>
         <ModalCss>
           <div onClick={func}>
-            <MobileIcon />
+            <MobileIcon handleClick={func} clicked={click} />
           </div>
         </ModalCss>
         <BgCss clicked={click}></BgCss>
