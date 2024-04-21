@@ -60,7 +60,10 @@ def create_picture():
 
     file = request.files['image']
     print("2")
-    result = cloudinary.uploader.upload(file)
+    result = cloudinary.uploader.upload(file, {
+        quality: 'auto',
+        resourse_type: 'image'
+    })
     print("3")
     url = result['url']
     print("4")
