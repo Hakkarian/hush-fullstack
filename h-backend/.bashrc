@@ -1,0 +1,1 @@
+alias start_back="uvicorn backend_sammy_gorilla.main:app --reload"

@@ -10,7 +10,7 @@ def configure_cloudinary():
     api_secret = os.getenv("CLOUD_API_SECRET")
     )
 
-def fetch_store_pictures(cursor):
+def fetch_store_pictures(cursor, conn):
     # Fetch pictures from Cloudinary
     cloudinary_pictures = CloudinaryImage().search(expression="type:upload").execute()
 

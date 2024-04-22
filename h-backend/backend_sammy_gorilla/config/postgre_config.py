@@ -7,9 +7,9 @@ def configure_postgresql():
     # Configure PostgreSQL
     conn = psycopg2.connect(
         host=postgre_host,
+        password="admin123",
         dbname="postgres",
         user="postgres",
-        password=postgre_password,
         port=5433
     )
     cursor = conn.cursor()

@@ -1,13 +1,8 @@
-from flask import Blueprint, jsonify, request, Response
-from io import BytesIO
-from PIL import Image
-import requests
-import base64
+from flask import Blueprint, jsonify, request
 import cloudinary.uploader
-from cloudinary.uploader import upload
 import cloudinary.api
 
-from backend.config.postgre_config import configure_postgresql
+from backend_sammy_gorilla.config.postgre_config import configure_postgresql
 
 gallery_bp = Blueprint("gallery", __name__, url_prefix="/gallery")
 
@@ -61,8 +56,8 @@ def create_picture():
     file = request.files['image']
     print("2")
     result = cloudinary.uploader.upload(file, {
-        quality: 'auto',
-        resourse_type: 'image'
+        'quality': 'auto',
+        'resourse_type': 'image'
     })
     print("3")
     url = result['url']
