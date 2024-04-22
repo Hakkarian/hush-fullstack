@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
