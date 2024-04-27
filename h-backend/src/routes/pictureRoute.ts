@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import pictureController from "../controllers/picturesController";
-import {upload, uploadCloud} from '../config/cloudinaryConfig'
+import { upload } from '../config/cloudinaryConfig';
 
 const router = Router();
 
