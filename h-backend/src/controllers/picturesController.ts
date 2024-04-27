@@ -3,6 +3,10 @@ import express, { Request, Response } from "express";
 import { cloudinary } from "../config/cloudinaryConfig";
 import AppError from "../utils/appError";
 
+interface MulterRequest extends Request {
+  file: any
+}
+
 const pictureController = {
   getPictures: async (req: Request, res: Response) => {
     const { page = 1, page_size = 4 }: { page?: number; page_size?: number } =
@@ -33,11 +37,12 @@ const pictureController = {
   },
   postPicture: async (req: Request, res: Response) => {
     try {
-      if (!req.file) {
+      const image = (req as MulterRequest).file;
+      if (!image) {
         throw new AppError(404, "Image file not found");
       }
 
-      const imagePath = req.file.path;
+      const imagePath = image.path;
       const pathArr = imagePath.split("/");
       const length = pathArr.length;
 
