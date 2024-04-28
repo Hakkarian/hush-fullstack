@@ -7,12 +7,7 @@ const deletePicture = async (req, res) => {
     const pictureId = parseInt(req.params.id);
 
     // Retrieve the picture from the database
-    const query = {
-      name: "get-picture",
-      text: "SELECT * FROM pictures WHERE id = $1",
-      values: [pictureId],
-    };
-    const { rows } = await sql(query);
+    const { rows } = await sql`SELECT * FROM pictures WHERE id = ${pictureId}`;
 
     if (rows.length === 0) {
       throw new AppError(404, "Picture not found");
@@ -24,12 +19,7 @@ const deletePicture = async (req, res) => {
     await cloudinary.uploader.destroy(picture.cloudinary_id);
 
     // Delete the picture from the database
-    const deleteQuery = {
-      name: "delete-picture",
-      text: "DELETE FROM pictures WHERE id = $1",
-      values: [pictureId],
-    };
-    await sql(deleteQuery);
+    await sql`DELETE FROM pictures WHERE id = ${pictureId}`;
 
     res.json({ message: "Picture deleted successfully" });
   } catch (error) {

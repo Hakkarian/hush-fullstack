@@ -6,9 +6,8 @@ const getPictures = async (req, res) => {
   const offset = (page - 1) * page_size;
 
   try {
-    const query = `SELECT * FROM pictures ORDER BY id LIMIT $1 OFFSET $2`;
-    const values = [page_size, offset];
-    const { rows } = await sql(query, values);
+    const { rows } =
+      await sql`SELECT * FROM pictures ORDER BY id LIMIT ${page_size} OFFSET ${offset}`;
 
     if (rows.length === 0) {
       return res

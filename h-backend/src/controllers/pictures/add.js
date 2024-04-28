@@ -19,13 +19,7 @@ const addPicture = async (req, res) => {
     const result = await cloudinary.uploader.upload(lastElement);
 
     // Insert the picture into the database
-    const query = {
-      name: "insert-picture",
-      text: "INSERT INTO pictures (cloudinary_url, cloudinary_id) VALUES ($1, $2)",
-      values: [result.url, result.public_id],
-    };
-
-    await sql(query);
+    await sql`INSERT INTO pictures (cloudinary_url, cloudinary_id) VALUES (${result.url}, ${result.public_id})`;
 
     // Send a JSON response with the successful upload information
     res.json({
