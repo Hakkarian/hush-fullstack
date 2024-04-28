@@ -2,8 +2,10 @@
   "name": "h-backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.js",
+    "vercel-build": "echo hello"
   },
   "keywords": [],
   "author": "theola",
@@ -21,6 +23,7 @@
     "ts-node": "^10.9.2"
   },
   "dependencies": {
+    "@vercel/postgres": "^0.8.0",
     "cloudinary": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
