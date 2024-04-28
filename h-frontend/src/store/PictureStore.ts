@@ -51,7 +51,7 @@ class PictureStore {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const promise = axios.post(`${backendUrl}/gallery/add`, file);
+    const promise = axios.post(`${backendUrl}/pictures/add`, file);
     const response = await promise;
 
     runInAction(() => {
@@ -67,7 +67,7 @@ class PictureStore {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const promise = axios.post(`${backendUrl}/gallery/remove`, {
+    const promise = axios.post(`${backendUrl}/pictures/:id/delete`, {
       public_id,
     });
     const response = await promise;
@@ -79,58 +79,7 @@ class PictureStore {
     toastPromise(
       promise as Promise<any>, 'delete');
   }
-
-  async deleteSimilarPics() {
-    runInAction(() => {
-      pictureStore.loading = true;
-    });
-    pictureStore.similar.map(
-      async (sim) => {
-        const promise = axios.post(`${backendUrl}/gallery/remove-similar`, {
-          public_id: sim.id,
-        });
-        await promise;
-        toastPromise(promise as Promise<any>, "delete-similar");
-      }
-    );
-    runInAction(() => {
-      pictureStore.similar = [];
-      pictureStore.loading = false;
-    });
   }
-
-  async deletePictures() {
-     runInAction(() => {
-       pictureStore.loading = true;
-     });
-    const response = await axios.get(`${backendUrl}/gallery/remove-pictures`);
-     runInAction(() => {
-       pictureStore.pictures = response.data;
-       pictureStore.loading = false;
-     });
-    window.location.reload();
-  }
-
-  async searchSimilar(file: File) {
-    runInAction(() => {
-      pictureStore.loading = true;
-    });
-    const formData = new FormData();
-    formData.append("image", file);
-    const promise = axios.post(`${backendUrl}/gallery/similar`, formData);
-    const pics = await promise;
-    runInAction(() => {
-      pictureStore.similar = pics.data as unknown as {
-        url: string;
-        id: string;
-      }[];
-      pictureStore.loading = false;
-    });
-
-    
-    toastPromise(promise as Promise<any>,"similar");
-  }
-}
 
 const pictureStore = new PictureStore();
 export default pictureStore;
