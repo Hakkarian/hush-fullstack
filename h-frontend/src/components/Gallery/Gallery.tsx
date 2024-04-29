@@ -18,7 +18,7 @@ const backendUrl = process.env.REACT_APP_API_URL;
 const Gallery: React.FC = observer(() => {
   const [pics, setPics] = useState([...pictureStore.pictures]);
   const [page, setPage] = useState(1);
-  const [images, setImages] = useState(pictureStore.images)
+  const [images] = useState(pictureStore.images)
   const [fetching, setFetching] = useState(true);
 
   console.log('page', page)
@@ -49,7 +49,7 @@ const Gallery: React.FC = observer(() => {
       100
     ) {
       await axios
-        .get(`${backendUrl}/gallery?page=${page}&per_page=${4}`)
+        .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
         .then((response) => {
           setPics([...pics, ...response.data.pics]);
           setPage(page + 1);
@@ -61,7 +61,8 @@ const Gallery: React.FC = observer(() => {
     await axios
       .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
       .then(async (response) => {
-        setPics([...response.data.pics]);
+        console.log(response.data)
+        setPics([...response.data.pictures]);
 
         await pictureStore.addCount(response.data.total_count);
 
@@ -81,11 +82,11 @@ const Gallery: React.FC = observer(() => {
           pictureStore.similar.length === 0 &&
           pics.length !== 0 &&
           pics.map((picture: any) => (
-            <li key={picture[0]} className="gallery-item">
+            <li key={picture.id} className="gallery-item">
               <Tilt>
                 <img
-                  src={picture[2]}
-                  alt={picture[1]}
+                  src={picture.cloudinary_url}
+                  alt="drawing"
                   className="gallery-item__image"
                 />
               </Tilt>
@@ -95,8 +96,13 @@ const Gallery: React.FC = observer(() => {
                 mainTheme="Ocean"
                 branchTheme="Debris"
                 func={async () => {
-                  await pictureStore.deletePicture(picture[1]);
-                  setPics(pics.filter((pic: any) => pic[1] !== picture[1]));
+                  await pictureStore.deletePicture(picture.id);
+                  setPics(
+                    pics.filter(
+                      (pic: any) =>
+                        pic.cloudinary_url !== picture.cloudinary_url
+                    )
+                  );
                 }}
               />
             </li>

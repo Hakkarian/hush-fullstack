@@ -47,27 +47,28 @@ class PictureStore {
     });
   }
 
-  async addPicture(file: any) {
+  async addPicture(image: any) {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const promise = axios.post(`${backendUrl}/pictures/add`, file);
+    const promise = axios.post(`${backendUrl}/pictures/add`, image);
     const response = await promise;
+    console.log([...response.data.picture]);
 
     runInAction(() => {
-      pictureStore.totalCount = response.data.total_count;
-      pictureStore.images = response.data.images;
+      pictureStore.totalCount = response.data.totalCount;
+      pictureStore.images = [...response.data.picture];
       pictureStore.loading = false;
     });
 
     toastPromise(promise as Promise<any>, "add");
   }
 
-  async deletePicture(public_id: string) {
+  async deletePicture(public_id: number) {
     runInAction(() => {
       pictureStore.loading = true;
     });
-    const promise = axios.post(`${backendUrl}/pictures/:id/delete`, {
+    const promise = axios.post(`${backendUrl}/pictures/${public_id}/delete`, {
       public_id,
     });
     const response = await promise;
