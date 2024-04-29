@@ -51,7 +51,7 @@ const Gallery: React.FC = observer(() => {
       await axios
         .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
         .then((response) => {
-          setPics([...pics, ...response.data.pics]);
+          setPics([...pics, ...response.data.pictures]);
           setPage(page + 1);
         });
     }
