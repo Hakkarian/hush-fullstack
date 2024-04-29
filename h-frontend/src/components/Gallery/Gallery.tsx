@@ -64,9 +64,8 @@ const Gallery: React.FC = observer(() => {
         console.log(response.data)
         setPics([...response.data.pictures]);
 
-        await pictureStore.addCount(response.data.total_count);
+        await pictureStore.addCount(response.data.totalCount);
 
-        
         setFetching(false);
 
         setPage(page + 1);
