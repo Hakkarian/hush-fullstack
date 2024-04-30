@@ -82,13 +82,11 @@ const Gallery: React.FC = observer(() => {
           pics.length !== 0 &&
           pics.map((picture: any) => (
             <li key={picture.id} className="gallery-item">
-              <Tilt>
                 <img
                   src={picture.cloudinary_url}
                   alt="drawing"
                   className="gallery-item__image"
                 />
-              </Tilt>
               <Button
                 similarMode=""
                 text="Delete"
