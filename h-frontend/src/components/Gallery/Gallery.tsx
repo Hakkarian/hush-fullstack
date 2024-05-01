@@ -4,7 +4,6 @@ import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
 import Loader from "shared/Loader";
 import Button from "shared/CustomButton/Button";
-import Tilt from "react-parallax-tilt";
 import axios from "axios";
 
 export interface Picture {
@@ -108,14 +107,12 @@ const Gallery: React.FC = observer(() => {
           pictureStore.similar.length !== 0 &&
           pictureStore.similar.map((sim: { url: string; id: string }) => (
             <li key={sim.id} className="gallery-item">
-              <Tilt>
                 <img
                   src={sim.url}
                   alt={sim.id}
                   width="300"
                   className="gallery-item__image"
                 />
-              </Tilt>
             </li>
           ))}
       </ul>
