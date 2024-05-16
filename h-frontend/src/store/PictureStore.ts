@@ -49,11 +49,15 @@ class PictureStore {
     });
     const promise = axios.post(`${backendUrl}/pictures/add`, image);
     const response = await promise;
-
-
+    
+    console.log(
+      "🚀 ~ PictureStore ~ runInAction ~ response.data.pictures:",
+      response.data.pictures
+    );
     runInAction(() => {
       pictureStore.totalCount = response.data.totalCount;
-      pictureStore.images = [...response.data.pictures];
+      pictureStore.images = [...pictureStore.images, response.data.pictures];
+
       pictureStore.loading = false;
     });
 
