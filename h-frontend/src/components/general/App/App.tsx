@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import Header from "../Header";
 import { Wrapper } from "../../../styles";
 import { Route, Routes } from "react-router-dom";
@@ -10,16 +10,6 @@ import SignInPage from "pages/SignInPage";
 import SignUpPage from "pages/SignUpPage";
 
 const App: FC = () => {
-  useEffect(() => {
-    window.addEventListener("beforeload", alertUser);
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-    };
-  }, []);
-  const alertUser = (e: any) => {
-    e.preventDefault();
-    console.log("Are you sure?");
-  };
   return (
     <Wrapper>
       <Toaster />
@@ -27,6 +17,7 @@ const App: FC = () => {
       <Routes>
         <Route index element={<MainPage />} />
         <Route path="/hush-gallery" element={<GalleryPage />} />
+        <Route path="/risey-gallery" element={<GalleryPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>

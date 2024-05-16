@@ -3,10 +3,11 @@ import { HeaderCss, NavLinkCss } from './Header.styled';
 import { useMediaQuery } from 'react-responsive';
 import Modal from 'components/Modal';
 import { NavLink } from 'react-router-dom';
+import PictureForm from 'components/PictureForm';
+
 
 const Header: FC = () => {
   const [click, setClick] = useState(false);
-  console.log("🚀 ~ Modal ~ click:", click);
 
   const handleClick = () => setClick(!click);
   const isDesktopOrLaptop = useMediaQuery({

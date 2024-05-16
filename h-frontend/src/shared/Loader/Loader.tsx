@@ -2,7 +2,7 @@ import React from 'react'
 import { LoaderCss } from './Loader.styled'
 import pictureStore from 'store/PictureStore';
 
-const Loader = ({count = pictureStore.pictures.length, height = '300px', width = '300px', backgroundColor = 'black', marginBottom = '10px', borderRadius = '4px', border = '0'}) => {
+const Loader = ({count = pictureStore.images.length, height = '300px', width = '300px', backgroundColor = 'black', marginBottom = '10px', borderRadius = '4px', border = '0'}) => {
     const style = {
         height,
         width,

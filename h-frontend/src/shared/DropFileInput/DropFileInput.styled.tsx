@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
 export const DropFileInputCss = styled.div`
+  .click-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
   .drop-file-input {
     position: relative;
     height: 50px;
@@ -15,6 +22,7 @@ export const DropFileInputCss = styled.div`
     border: 2px dashed black;
 
     transition: opacity 250ms ease-in-out, border-radius 250ms ease-in-out;
+    cursor: pointer;
 
     &.dragover {
       opacity: 0.3;

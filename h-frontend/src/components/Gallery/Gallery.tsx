@@ -15,12 +15,13 @@ export interface Picture {
 const backendUrl = process.env.REACT_APP_API_URL;
 
 const Gallery: React.FC = observer(() => {
-  const [pics, setPics] = useState([...pictureStore.pictures]);
+  const [pics, setPics] = useState([...pictureStore.images]);
   const [page, setPage] = useState(1);
   const [images] = useState(pictureStore.images)
   const [fetching, setFetching] = useState(true);
 
-  console.log('page', page)
+  
+
 
   useEffect(() => {
     if (pictureStore.images.length !== 0) {
@@ -31,13 +32,22 @@ const Gallery: React.FC = observer(() => {
       setPics([...pics, ...pictureStore.images]);
       fetchPictures(page);
     }
-  }, [pictureStore.similar, fetching, pics.length, pictureStore.images.length]);
+    // eslint-disable-next-line
+  }, [fetching, pics.length, pictureStore.totalCount]);
 
   useEffect(() => {
+    
+    console.log("🚀 ~ useEffect ~ pics.length:", pics.length);
+
+    console.log(
+      "🚀 ~ useEffect ~ pictureStore.totalCount:",
+      pictureStore.totalCount
+    );
     if (pics.length < pictureStore.totalCount) {
       document.addEventListener("scroll", handleScroll);
       return () => document.removeEventListener("scroll", handleScroll);
     }
+    // eslint-disable-next-line
   }, [page, pictureStore.totalCount, pics.length]);
 
   const handleScroll = async (e: any) => {
@@ -49,7 +59,7 @@ const Gallery: React.FC = observer(() => {
     ) {
       await axios
         .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
-        .then((response) => {
+        .then(async (response) => {
           setPics([...pics, ...response.data.pictures]);
           setPage(page + 1);
         });
@@ -60,7 +70,6 @@ const Gallery: React.FC = observer(() => {
     await axios
       .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
       .then(async (response) => {
-        console.log(response.data)
         setPics([...response.data.pictures]);
 
         await pictureStore.addCount(response.data.totalCount);
@@ -76,8 +85,7 @@ const Gallery: React.FC = observer(() => {
       <h2 style={{ textAlign: "center" }}>Gallery</h2>
       <ul className="gallery-list">
         {pictureStore.loading && <Loader />}
-        {!pictureStore.loading &&
-          pictureStore.similar.length === 0 &&
+        {
           pics.length !== 0 &&
           pics.map((picture: any) => (
             <li key={picture.id} className="gallery-item">
@@ -101,18 +109,6 @@ const Gallery: React.FC = observer(() => {
                   );
                 }}
               />
-            </li>
-          ))}
-        {!pictureStore.loading &&
-          pictureStore.similar.length !== 0 &&
-          pictureStore.similar.map((sim: { url: string; id: string }) => (
-            <li key={sim.id} className="gallery-item">
-                <img
-                  src={sim.url}
-                  alt={sim.id}
-                  width="300"
-                  className="gallery-item__image"
-                />
             </li>
           ))}
       </ul>

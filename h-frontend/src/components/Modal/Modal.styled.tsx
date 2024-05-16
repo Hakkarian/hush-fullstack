@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const ModalCss = styled.div`
-  background-color: #b6edc8;
+  background-color: ${({ theme }) => theme.colors.secondColor};
   position: fixed;
   top: 1rem;
   left: 1rem;
@@ -52,6 +52,7 @@ export const NavCss = styled.nav<Props>`
   z-index: 4;
   opacity: ${({ clicked }) => (clicked ? "1" : "0")};
   width: ${({ clicked }) => (clicked ? "100%" : "0")};
+  pointer-events: ${({ clicked }) => (!clicked && "none")};
   transition: opacity 800ms, width 800ms;
 `;
 

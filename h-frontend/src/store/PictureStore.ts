@@ -17,16 +17,12 @@ export interface Similar {
 const backendUrl = process.env.REACT_APP_API_URL;
 
 class PictureStore {
-  pictures: [number, string, string][] = [];
-  similar: { url: string; id: string }[] = [];
   images: [number, string, string][] = [];
   loading: boolean = false;
   totalCount: number = 0;
 
   constructor() {
     makeObservable(this, {
-      pictures: observable,
-      similar: observable,
       images: observable, 
       totalCount: observable,
       addPicture: action,
@@ -53,7 +49,7 @@ class PictureStore {
     });
     const promise = axios.post(`${backendUrl}/pictures/add`, image);
     const response = await promise;
-    console.log([...response.data.pictures]);
+
 
     runInAction(() => {
       pictureStore.totalCount = response.data.totalCount;

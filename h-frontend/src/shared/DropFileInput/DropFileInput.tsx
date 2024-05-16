@@ -10,9 +10,11 @@ interface IDropFileInput {
 }
 const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChange, imagePath }) => {
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLInputElement>(null);
 
   const [drag, setDrag] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDragStart = (e: any) => {
     e.preventDefault();
@@ -36,6 +38,10 @@ const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChan
     e.preventDefault();
     wrapperRef.current?.classList.remove("dragover");
     const file = e.dataTransfer.files?.[0];
+
+    console.log("🚀 ~ onDrop ~ file:", file)
+
+    
     if (file) {
      await onFileChange(file)
     }
@@ -43,19 +49,36 @@ const DropFileInput: FC<IDropFileInput> = ({size, borderRadius, name, onFileChan
 
   return (
     <DropFileInputCss>
-
-      <div style={{ width: `${size}%`, textAlign: 'center' }}>{drag ? <p>Please, drag inside.</p> : <p>{name}</p>}</div>
+      <div style={{ width: `${size}%`, textAlign: "center" }}>
+        {drag ? <p>Please, drag inside.</p> : <p>{name}</p>}
+      </div>
       <div
         className="drop-file-input"
         ref={wrapperRef}
-        onDragEnter={e => onDragStart(e)}
-        onDragLeave={e => onDragLeave(e)}
-        onDragOver={e => onDragOver(e)}
-        onDrop={e => onDrop(e)}
-        style={{ width: `${size}%`, height: `${size}%`, borderRadius: borderRadius}}
+        onDragEnter={(e) => onDragStart(e)}
+        onDragLeave={(e) => onDragLeave(e)}
+        onDragOver={(e) => onDragOver(e)}
+        onDrop={(e) => onDrop(e)}
+        style={{
+          width: `100%`,
+          height: `${size}%`,
+          borderRadius: borderRadius,
+        }}
       >
+        <input
+          className='click-file-input'
+          type="file"
+          ref={fileInputRef}
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              console.log("🚀 ~ onChange={ ~  e.target.files[0]:",  file)
+              await onFileChange(file);
+            }
+          }}
+        />
         <div className="drop-file-input__label">
-          <img src={imagePath} alt='add-file' width={50} />
+          <img src={imagePath} alt="add-file" width={50} />
         </div>
       </div>
     </DropFileInputCss>
