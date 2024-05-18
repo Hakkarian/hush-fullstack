@@ -18,7 +18,7 @@ export const DropFileInputCss = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: ${({ theme }) => theme.colors.thirdColor};
+    background-color: ${({ theme }) => theme.colors.hush.thirdColor};
     border: 2px dashed black;
 
     transition: opacity 250ms ease-in-out, border-radius 250ms ease-in-out;

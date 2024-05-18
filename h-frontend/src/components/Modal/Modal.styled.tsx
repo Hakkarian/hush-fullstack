@@ -6,7 +6,6 @@ interface Props {
 }
 
 export const ModalCss = styled.div`
-  background-color: ${({ theme }) => theme.colors.secondColor};
   position: fixed;
   top: 1rem;
   left: 1rem;
@@ -16,6 +15,14 @@ export const ModalCss = styled.div`
   cursor: pointer;
   z-index: 5;
   box-shadow: 0 1rem 3rem rgba(182, 237, 200, 0.3);
+  background-color: "white";
+
+  &.modal--hush {
+    background-color: ${({ theme }) => theme.colors.hush.secondColor};
+  }
+  &.modal--risey {
+    background-color: ${({ theme }) => theme.colors.risey.secondColor};
+  }
 `;
 
 export const MobileIcon = styled(MenuIcon)`
@@ -30,15 +37,22 @@ export const BgCss = styled.div<Props>`
   position: fixed;
   top: 1rem;
   left: 1rem;
-  background-image: radial-gradient(#B6EDC8, #115B4C);
   height: 5rem;
   width: 5rem;
   border-radius: 50%;
   z-index: 4;
-
   transform: ${({ clicked }) => (clicked ? "scale(80)" : "scale(0)")};
+  background-image: radial-gradient(#989898, #212121);
 
-  transition: transform 1000ms ease-in-out, height 250ms ease-in-out, width 250ms ease-in-out;
+  transition: transform 1000ms ease-in-out, height 250ms ease-in-out,
+    width 250ms ease-in-out;
+
+  &.bg--hush {
+    background-image: radial-gradient(#b6edc8, #115b4c);
+  }
+  &.bg--risey {
+    background-image: radial-gradient(#f9c04d, #976d04);
+  }
 `;
 
 export const NavCss = styled.nav<Props>`

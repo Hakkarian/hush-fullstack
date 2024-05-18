@@ -20,11 +20,13 @@ class PictureStore {
   images: [number, string, string][] = [];
   loading: boolean = false;
   totalCount: number = 0;
+  owner: string = "hush" || "risey";
 
   constructor() {
     makeObservable(this, {
       images: observable, 
       totalCount: observable,
+      owner: observable,
       addPicture: action,
       deletePicture: action,
       addCount: action,

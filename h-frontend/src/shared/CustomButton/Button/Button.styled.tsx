@@ -32,7 +32,7 @@ export const ButtonCss = styled.div`
                 width: 10em;
                 height: 10em;
                 opacity: 0.5;
-                background: ${({ theme }) => theme.button.roseBg};
+                background: ${({ theme }) => theme.button.hush.roseBg};
                 margin-left: -10em;
                 border-radius: 42.5%;
                 transform-origin: 50% 50%;
@@ -49,7 +49,7 @@ export const ButtonCss = styled.div`
                 span {
                   opacity: 1;
                   top: 10%;
-                  background-color: ${({ theme }) => theme.button.black};
+                  background-color: ${({ theme }) => theme.button.hush.black};
                   transition: all 2s ease, top 1.5s ease;
                 }
               }
@@ -59,7 +59,7 @@ export const ButtonCss = styled.div`
           .Coral {
             button {
               padding: 15px 10px;
-              color: ${({ theme }) => theme.colors.firstColor};
+              color: ${({ theme }) => theme.colors.hush.firstColor};
               overflow: hidden;
               position: relative;
               border-radius: 5px;
@@ -77,20 +77,20 @@ export const ButtonCss = styled.div`
                 border-radius: 42.5%;
                 transform-origin: 50% 50%;
                 transition: all 1s ease, top 1.5s ease;
-                background: ${({ theme }) => theme.button.waterBg};
+                background: ${({ theme }) => theme.button.hush.waterBg};
 
                 &.Coralwave1 {
-                  background: ${({ theme }) => theme.button.thirdColor};
+                  background: ${({ theme }) => theme.button.hush.thirdColor};
                   animation: smallwave 3s infinite linear;
                 }
 
                 &.Coralwave2 {
-                  background: ${({ theme }) => theme.button.roseBg};
+                  background: ${({ theme }) => theme.button.hush.roseBg};
                   animation: smallwave 4s infinite linear;
                 }
 
                 &.Coralwave3 {
-                  background: ${({ theme }) => theme.colors.fColor};
+                  background: ${({ theme }) => theme.colors.hush.firstColor};
                   animation: smallwave 5s infinite linear;
                 }
               }

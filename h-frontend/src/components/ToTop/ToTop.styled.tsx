@@ -21,12 +21,18 @@ export const ToTopCss = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${({ theme }) => theme.colors.secondColor};
     width: 40px;
     height: 40px;
     border-radius: 0.3rem;
 
     transform: rotate(-90deg);
+
+    &.round--hush {
+      background-color: ${({ theme }) => theme.colors.hush.secondColor};
+    }
+    &.round--risey {
+      background-color: ${({ theme }) => theme.colors.risey.secondColor};
+    }
   }
 
   #cta {
@@ -53,9 +59,16 @@ export const ToTopCss = styled.div`
     }
     border: 1vw solid;
     border-radius: 0.3rem;
-    border-color: ${({ theme }) => theme.colors.firstColor} transparent
-      transparent black;
     transform: rotate(135deg);
+
+    &.arrow--hush {
+      border-color: ${({ theme }) => theme.colors.hush.firstColor} transparent
+        transparent black;
+    }
+    &.arrow--risey {
+      border-color: ${({ theme }) => theme.colors.risey.firstColor} transparent
+        transparent black;
+    }
   }
 
   .arrowSliding {

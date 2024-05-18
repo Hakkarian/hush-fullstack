@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ToTopCss } from './ToTop.styled';
+import { useLocation } from 'react-router-dom';
 
 const ToTop = () => {
-    const [isVisible, setIsVisible] = useState(false);
-
+  const location = useLocation();
+  const [isVisible, setIsVisible] = useState(false);
+  const addHushClass = (str: string) => location.pathname.includes("/hush-gallery") && `${str}--hush`;
+  const addRiseyClass = (str: string) => location.pathname.includes("/risey-gallery") && `${str}--risey`;
+  
     useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -36,20 +40,38 @@ const ToTop = () => {
         onClick={scrollToTop}
         style={{ pointerEvents: isVisible ? "auto" : "none" }}
       >
-        <div className="round">
+        <div
+          className={`round ${addHushClass("round")} ${addRiseyClass("round")}`}
+        >
           <div id="cta">
             <div id="arrowAnim">
               <div className="arrowSliding">
-                <div className="arrow"></div>
+                <div
+                  className={`arrow ${addHushClass("arrow")} ${addRiseyClass(
+                    "arrow"
+                  )}`}
+                ></div>
               </div>
               <div className="arrowSliding delay1">
-                <div className="arrow"></div>
+                <div
+                  className={`arrow ${addHushClass("arrow")} ${addRiseyClass(
+                    "arrow"
+                  )}`}
+                ></div>
               </div>
               <div className="arrowSliding delay2">
-                <div className="arrow"></div>
+                <div
+                  className={`arrow ${addHushClass("arrow")} ${addRiseyClass(
+                    "arrow"
+                  )}`}
+                ></div>
               </div>
               <div className="arrowSliding delay3">
-                <div className="arrow"></div>
+                <div
+                  className={`arrow ${addHushClass("arrow")} ${addRiseyClass(
+                    "arrow"
+                  )}`}
+                ></div>
               </div>
             </div>
           </div>

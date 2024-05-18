@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
 import Loader from "shared/Loader";
 import Button from "shared/CustomButton/Button";
 import axios from "axios";
+import { Context } from "components/general/App/App";
 
 export interface Picture {
   id: number;
@@ -14,14 +15,13 @@ export interface Picture {
 
 const backendUrl = process.env.REACT_APP_API_URL;
 
+
 const Gallery: React.FC = observer(() => {
   const [pics, setPics] = useState([...pictureStore.images]);
   const [page, setPage] = useState(1);
   const [images] = useState(pictureStore.images)
   const [fetching, setFetching] = useState(true);
-
-  
-
+  const owner = useContext(Context);
 
   useEffect(() => {
     if (pictureStore.images.length !== 0) {
@@ -36,13 +36,6 @@ const Gallery: React.FC = observer(() => {
   }, [fetching, pics.length, pictureStore.totalCount]);
 
   useEffect(() => {
-    
-    console.log("🚀 ~ useEffect ~ pics.length:", pics.length);
-
-    console.log(
-      "🚀 ~ useEffect ~ pictureStore.totalCount:",
-      pictureStore.totalCount
-    );
     if (pics.length < pictureStore.totalCount) {
       document.addEventListener("scroll", handleScroll);
       return () => document.removeEventListener("scroll", handleScroll);
@@ -85,30 +78,48 @@ const Gallery: React.FC = observer(() => {
       <h2 style={{ textAlign: "center" }}>Gallery</h2>
       <ul className="gallery-list">
         {pictureStore.loading && <Loader />}
-        {
-          pics.length !== 0 &&
+        {pics.length !== 0 &&
           pics.map((picture: any) => (
             <li key={picture.id} className="gallery-item">
-                <img
-                  src={picture.cloudinary_url}
-                  alt="drawing"
-                  className="gallery-item__image"
-                />
-              <Button
-                similarMode=""
-                text="Delete"
-                mainTheme="Ocean"
-                branchTheme="Debris"
-                func={async () => {
-                  await pictureStore.deletePicture(picture.id);
-                  setPics(
-                    pics.filter(
-                      (pic: any) =>
-                        pic.cloudinary_url !== picture.cloudinary_url
-                    )
-                  );
-                }}
+              <img
+                src={picture.cloudinary_url}
+                alt="drawing"
+                className="gallery-item__image"
               />
+              {owner === "hush" && (
+                <Button
+                  similarMode=""
+                  text="Delete"
+                  mainTheme="Ocean"
+                  branchTheme="Debris"
+                  func={async () => {
+                    await pictureStore.deletePicture(picture.id);
+                    setPics(
+                      pics.filter(
+                        (pic: any) =>
+                          pic.cloudinary_url !== picture.cloudinary_url
+                      )
+                    );
+                  }}
+                />
+              )}
+              {owner === "risey" && (
+                <Button
+                  similarMode=""
+                  text="Delete"
+                  mainTheme="Ocean"
+                  branchTheme="Debris"
+                  func={async () => {
+                    await pictureStore.deletePicture(picture.id);
+                    setPics(
+                      pics.filter(
+                        (pic: any) =>
+                          pic.cloudinary_url !== picture.cloudinary_url
+                      )
+                    );
+                  }}
+                />
+              )}
             </li>
           ))}
       </ul>

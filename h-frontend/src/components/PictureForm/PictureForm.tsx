@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import DropFileInput from "shared/DropFileInput";
 import Button from "shared/CustomButton/Button";
@@ -6,8 +6,10 @@ import addImage from "../../icons/add-image.svg";
 import { PictureFormCss } from "./PictureForm.styled";
 import pictureStore from "store/PictureStore";
 import { debounce } from "lodash";
+import { Context } from "components/general/App/App";
 
 const PictureForm = observer(() => {
+  const owner = useContext(Context);
   const ref = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null)!;
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
@@ -62,10 +64,6 @@ const PictureForm = observer(() => {
     const handleResize = () => {
       if (formRef.current) {
         formRef.current.style.height = `${document.body.scrollHeight}px`;
-        console.log(
-          "🚀 ~ handleResize ~ formRef.current.style.height:",
-          formRef.current.style.height
-        );
       }
     };
 
@@ -75,6 +73,7 @@ const PictureForm = observer(() => {
     return () => {
       window.removeEventListener("scroll", debounce(handleResize, 500));
     };
+    // eslint-disable-next-line
   }, []);
 
   const handleAddPicture = async (file: File) => {
@@ -95,13 +94,20 @@ const PictureForm = observer(() => {
       onTouchEnd={handleTouchEnd}
       ref={formRef}
     >
-      <div className="add-image" ref={ref}>
-        <Button
-          text="open your eyes"
-          mainTheme="Ocean"
-          branchTheme="Coral"
-          similarMode=""
-        />
+      <section
+        className={`add-image ${owner === "hush" && "add-image--hush"} ${
+          owner === "risey" && "add-image--risey"
+        }`}
+        ref={ref}
+      >
+        {owner === "hush" && (
+          <Button
+            text="open your eyes"
+            mainTheme="Ocean"
+            branchTheme="Coral"
+            similarMode=""
+          />
+        )}
         <DropFileInput
           imagePath={addImage}
           size={50}
@@ -109,7 +115,7 @@ const PictureForm = observer(() => {
           name=""
           onFileChange={handleAddPicture}
         />
-      </div>
+      </section>
     </PictureFormCss>
   );
 });

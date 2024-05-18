@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PictureFormCss = styled.div`
-position: absolute;
+  position: absolute;
   width: 50%;
   height: 100%;
   .add-image {
@@ -14,26 +14,45 @@ position: absolute;
     flex-direction: column;
     width: 10rem;
 
-    background-color: ${({ theme }) => theme.colors.secondColor};
     padding: 1rem;
     padding-left: 4rem;
+
+    border-radius: 1rem 3rem;
     transition: transform 500ms ease-in-out;
 
     &.open {
       transform: translateX(10rem);
     }
+    &.add-image--hush {
+      background-color: ${({ theme }) => theme.colors.hush.secondColor};
+    }
+    &.add-image--risey {
+      background-color: ${({ theme }) => theme.colors.risey.secondColor};
+    }
   }
 
   .button--similarity-off {
-    border: 1px solid ${({ theme }) => theme.colors.secondColor};
-    background-color: ${({ theme }) => theme.colors.text};
-    color: ${({ theme }) => theme.colors.secondColor};
-
-    &:hover,
-    &:focus {
-      border: 1px solid ${({ theme }) => theme.colors.text};
-      background-color: ${({ theme }) => theme.colors.secondColor};
-      color: ${({ theme }) => theme.colors.text};
+    &.similarity-off--hush {
+      border: 1px solid ${({ theme }) => theme.colors.hush.secondColor};
+      background-color: ${({ theme }) => theme.colors.hush.text};
+      color: ${({ theme }) => theme.colors.hush.secondColor};
+      &:hover,
+      &:focus {
+        border: 1px solid ${({ theme }) => theme.colors.hush.text};
+        background-color: ${({ theme }) => theme.colors.hush.secondColor};
+        color: ${({ theme }) => theme.colors.hush.text};
+      }
+    }
+    &.similarity-off--risey {
+      border: 1px solid ${({ theme }) => theme.colors.risey.secondColor};
+      background-color: ${({ theme }) => theme.colors.risey.text};
+      color: ${({ theme }) => theme.colors.risey.secondColor};
+      &:hover,
+      &:focus {
+        border: 1px solid ${({ theme }) => theme.colors.risey.text};
+        background-color: ${({ theme }) => theme.colors.risey.secondColor};
+        color: ${({ theme }) => theme.colors.risey.text};
+      }
     }
   }
 `;

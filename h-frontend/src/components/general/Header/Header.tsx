@@ -1,13 +1,16 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { HeaderCss, NavLinkCss } from './Header.styled';
 import { useMediaQuery } from 'react-responsive';
 import Modal from 'components/Modal';
-import { NavLink } from 'react-router-dom';
-import PictureForm from 'components/PictureForm';
+import { NavLink, useLocation } from 'react-router-dom';
 
 
 const Header: FC = () => {
   const [click, setClick] = useState(false);
+  const location = useLocation();
+  const header = document.querySelector(".header")
+
+  console.log(location.pathname)
 
   const handleClick = () => setClick(!click);
   const isDesktopOrLaptop = useMediaQuery({
@@ -16,8 +19,14 @@ const Header: FC = () => {
   const isTabletOrMobile = useMediaQuery({
     query: '(max-width: 1224px)'
   })
+
+  if (location.pathname.includes("/hush-gallery")) {
+    header?.classList.add("header--hush");
+  } else if (location.pathname.includes("/risey-gallery")) {
+    header?.classList.add("header--risey");
+  }
   return (
-    <HeaderCss>
+    <HeaderCss className="header">
       {isTabletOrMobile && (
         <Modal func={handleClick} click={click}>
           <ul className="header-list">
@@ -29,6 +38,11 @@ const Header: FC = () => {
             <li className="header-list__item">
               <NavLinkCss onClick={handleClick} to="/hush-gallery">
                 Hush's Gallery
+              </NavLinkCss>
+            </li>
+            <li className="header-list__item">
+              <NavLinkCss onClick={handleClick} to="/risey-gallery">
+                Risey's Gallery
               </NavLinkCss>
             </li>
             <li className="header-list__item">
