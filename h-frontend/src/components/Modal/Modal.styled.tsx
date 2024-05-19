@@ -15,7 +15,9 @@ export const ModalCss = styled.div`
   cursor: pointer;
   z-index: 5;
   box-shadow: 0 1rem 3rem rgba(182, 237, 200, 0.3);
-  background-color: "white";
+  background-color: "grey";
+
+  transition: background-color 500ms ease-in-out;
 
   &.modal--hush {
     background-color: ${({ theme }) => theme.colors.hush.secondColor};
@@ -44,8 +46,9 @@ export const BgCss = styled.div<Props>`
   transform: ${({ clicked }) => (clicked ? "scale(80)" : "scale(0)")};
   background-image: radial-gradient(#989898, #212121);
 
-  transition: transform 1000ms ease-in-out, height 250ms ease-in-out,
-    width 250ms ease-in-out;
+  transition: transform 2000ms ease-in-out,
+    height 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    width 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &.bg--hush {
     background-image: radial-gradient(#b6edc8, #115b4c);

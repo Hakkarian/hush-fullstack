@@ -18,17 +18,22 @@ const backendUrl = process.env.REACT_APP_API_URL;
 
 class PictureStore {
   images: [number, string, string][] = [];
+  riseyImages: [number, string, string][] = [];
   loading: boolean = false;
   totalCount: number = 0;
+  totalCountRisey: number = 0;
   owner: string = "hush" || "risey";
 
   constructor() {
     makeObservable(this, {
-      images: observable, 
+      images: observable,
+      riseyImages: observable,
       totalCount: observable,
+      totalCountRisey: observable,
       owner: observable,
       addPicture: action,
-      deletePicture: action,
+      addRiseyPicture: action,
+      deleteRiseyPicture: action,
       addCount: action,
     });
   }
@@ -38,10 +43,21 @@ class PictureStore {
       pictureStore.images = [];
     });
   }
+  async emptyImageBoxRisey() {
+    runInAction(() => {
+      pictureStore.riseyImages = [];
+    });
+  }
 
   async addCount(count: number) {
     runInAction(() => {
       pictureStore.totalCount = count;
+    });
+  }
+
+  async addCountRisey(count: number) {
+    runInAction(() => {
+      pictureStore.totalCountRisey = count;
     });
   }
 
@@ -51,7 +67,7 @@ class PictureStore {
     });
     const promise = axios.post(`${backendUrl}/pictures/add`, image);
     const response = await promise;
-    
+
     console.log(
       "🚀 ~ PictureStore ~ runInAction ~ response.data.pictures:",
       response.data.pictures
@@ -59,6 +75,30 @@ class PictureStore {
     runInAction(() => {
       pictureStore.totalCount = response.data.totalCount;
       pictureStore.images = [...pictureStore.images, response.data.pictures];
+
+      pictureStore.loading = false;
+    });
+
+    toastPromise(promise as Promise<any>, "add");
+  }
+
+  async addRiseyPicture(image: any) {
+    runInAction(() => {
+      pictureStore.loading = true;
+    });
+    const promise = axios.post(`${backendUrl}/risey-pictures/add`, image);
+    const response = await promise;
+
+    console.log(
+      "🚀 ~ PictureStore ~ runInAction ~ response.data.pictures:",
+      response.data.pictures
+    );
+    runInAction(() => {
+      pictureStore.totalCountRisey = response.data.totalCountRisey;
+      pictureStore.riseyImages = [
+        ...pictureStore.riseyImages,
+        response.data.pictures,
+      ];
 
       pictureStore.loading = false;
     });
@@ -79,10 +119,28 @@ class PictureStore {
       pictureStore.totalCount = response.data;
       pictureStore.loading = false;
     });
-    toastPromise(
-      promise as Promise<any>, 'delete');
+    toastPromise(promise as Promise<any>, "delete");
   }
+
+  async deleteRiseyPicture(public_id: number) {
+    runInAction(() => {
+      pictureStore.loading = true;
+    });
+    const promise = axios.post(
+      `${backendUrl}/risey-pictures/${public_id}/delete`,
+      {
+        public_id,
+      }
+    );
+    const response = await promise;
+
+    runInAction(() => {
+      pictureStore.totalCountRisey = response.data;
+      pictureStore.loading = false;
+    });
+    toastPromise(promise as Promise<any>, "delete");
   }
+}
 
 const pictureStore = new PictureStore();
 export default pictureStore;

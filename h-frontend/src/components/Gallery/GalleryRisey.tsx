@@ -15,35 +15,35 @@ export interface Picture {
 
 const backendUrl = process.env.REACT_APP_API_URL;
 
-
-const Gallery: React.FC = observer(() => {
-  const [pics, setPics] = useState([...pictureStore.images]);
+const GalleryRisey: React.FC = observer(() => {
+  const [pics, setPics] = useState([...pictureStore.riseyImages]);
   const [page, setPage] = useState(1);
-  const [images] = useState(pictureStore.images)
+  const [images] = useState(pictureStore.riseyImages);
   const [fetching, setFetching] = useState(true);
   const owner = useContext(Context);
 
-  console.log(owner)
+    console.log(pics)
+  console.log(owner);
 
   useEffect(() => {
-    if (pictureStore.images.length !== 0) {
-      setPics([...pics, ...pictureStore.images]);
-      pictureStore.emptyImageBox();
+    if (pictureStore.riseyImages.length !== 0) {
+      setPics([...pics, ...pictureStore.riseyImages]);
+      pictureStore.emptyImageBoxRisey();
     }
     if (fetching || images.length) {
-      setPics([...pics, ...pictureStore.images]);
+      setPics([...pics, ...pictureStore.riseyImages]);
       fetchPictures(page);
     }
     // eslint-disable-next-line
-  }, [fetching, pics.length, pictureStore.totalCount]);
+  }, [fetching, pics.length, pictureStore.totalCountRisey]);
 
   useEffect(() => {
-    if (pics.length < pictureStore.totalCount) {
+    if (pics.length < pictureStore.totalCountRisey) {
       document.addEventListener("scroll", handleScroll);
       return () => document.removeEventListener("scroll", handleScroll);
     }
     // eslint-disable-next-line
-  }, [page, pictureStore.totalCount, pics.length]);
+  }, [page, pictureStore.totalCountRisey, pics.length]);
 
   const handleScroll = async (e: any) => {
     if (
@@ -53,7 +53,7 @@ const Gallery: React.FC = observer(() => {
       100
     ) {
       await axios
-        .get(`${backendUrl}/pictures?page=${page}&per_page=${4}`)
+        .get(`${backendUrl}/risey-pictures?page=${page}&per_page=${4}`)
         .then(async (response) => {
           setPics([...pics, ...response.data.pictures]);
           setPage(page + 1);
@@ -63,13 +63,11 @@ const Gallery: React.FC = observer(() => {
 
   const fetchPictures = async (page: number) => {
     await axios
-      .get(
-        `${backendUrl}/pictures?page=${page}&per_page=${4}`
-      )
+      .get(`${backendUrl}/risey-pictures?page=${page}&per_page=${4}`)
       .then(async (response) => {
         setPics([...response.data.pictures]);
 
-        await pictureStore.addCount(response.data.totalCount);
+        await pictureStore.addCountRisey(response.data.totalCount);
 
         setFetching(false);
 
@@ -90,30 +88,12 @@ const Gallery: React.FC = observer(() => {
                 alt="drawing"
                 className="gallery-item__image"
               />
-              {owner === "hush" && (
-                <Button
-                  similarMode=""
-                  text="Delete"
-                  mainTheme="Ocean"
-                  branchTheme="Debris"
-                  func={async () => {
-                    await pictureStore.deletePicture(picture.id);
-                    setPics(
-                      pics.filter(
-                        (pic: any) =>
-                          pic.cloudinary_url !== picture.cloudinary_url
-                      )
-                    );
-                  }}
-                />
-              )}
-              {owner === "risey" && (
                 <Button
                   text="Delete"
                   mainTheme="Minecraft"
                   branchTheme="Grave"
                   func={async () => {
-                    await pictureStore.deletePicture(picture.id);
+                    await pictureStore.deleteRiseyPicture(picture.id);
                     setPics(
                       pics.filter(
                         (pic: any) =>
@@ -122,7 +102,6 @@ const Gallery: React.FC = observer(() => {
                     );
                   }}
                 />
-              )}
             </li>
           ))}
       </ul>
@@ -130,4 +109,4 @@ const Gallery: React.FC = observer(() => {
   );
 });
 
-export default Gallery;
+export default GalleryRisey;

@@ -82,7 +82,12 @@ const PictureForm = observer(() => {
       if (file) {
         picture.append("image", file);
       }
-      await pictureStore.addPicture(picture);
+      if (owner === "hush") {
+        await pictureStore.addPicture(picture);
+      } 
+      if (owner === "risey") {
+        await pictureStore.addRiseyPicture(picture);
+      }
     } catch (error) {
       // Handle error appropriately
     }
@@ -105,7 +110,6 @@ const PictureForm = observer(() => {
             text="open your eyes"
             mainTheme="Ocean"
             branchTheme="Coral"
-            similarMode=""
           />
         )}
         <DropFileInput
