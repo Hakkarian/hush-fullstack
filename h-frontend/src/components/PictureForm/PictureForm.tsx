@@ -102,7 +102,7 @@ const PictureForm = observer(() => {
       <section
         className={`add-image ${owner === "hush" && "add-image--hush"} ${
           owner === "risey" && "add-image--risey"
-        }`}
+        } open`}
         ref={ref}
       >
         {owner === "hush" && (

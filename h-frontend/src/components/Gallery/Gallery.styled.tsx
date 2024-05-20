@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const GalleryCss = styled.div`
+  transition: background-color 500ms linear;
   .gallery-list {
     display: flex;
     flex-direction: column;
@@ -12,6 +13,7 @@ export const GalleryCss = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
 
     &:hover {
       cursor: pointer;

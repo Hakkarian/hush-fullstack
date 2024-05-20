@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
 import Loader from "shared/Loader";
 import Button from "shared/CustomButton/Button";
 import axios from "axios";
-import { Context } from "components/general/App/App";
 
 export interface Picture {
   id: number;
@@ -20,10 +19,6 @@ const GalleryRisey: React.FC = observer(() => {
   const [page, setPage] = useState(1);
   const [images] = useState(pictureStore.riseyImages);
   const [fetching, setFetching] = useState(true);
-  const owner = useContext(Context);
-
-    console.log(pics)
-  console.log(owner);
 
   useEffect(() => {
     if (pictureStore.riseyImages.length !== 0) {
@@ -35,7 +30,7 @@ const GalleryRisey: React.FC = observer(() => {
       fetchPictures(page);
     }
     // eslint-disable-next-line
-  }, [fetching, pics.length, pictureStore.totalCountRisey]);
+  }, [fetching, pics.length, pictureStore.totalCountRisey, pictureStore.riseyImages.length]);
 
   useEffect(() => {
     if (pics.length < pictureStore.totalCountRisey) {
