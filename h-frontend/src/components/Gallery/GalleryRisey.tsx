@@ -5,6 +5,8 @@ import { GalleryCss } from "./Gallery.styled";
 import Loader from "shared/Loader";
 import Button from "shared/CustomButton/Button";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
+import { Tilt } from "react-tilt";
 
 export interface Picture {
   id: number;
@@ -19,6 +21,11 @@ const GalleryRisey: React.FC = observer(() => {
   const [page, setPage] = useState(1);
   const [images] = useState(pictureStore.riseyImages);
   const [fetching, setFetching] = useState(true);
+
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 1224px)",
+  });
+
 
   useEffect(() => {
     if (pictureStore.riseyImages.length !== 0) {
@@ -78,25 +85,37 @@ const GalleryRisey: React.FC = observer(() => {
         {pics.length !== 0 &&
           pics.map((picture: any) => (
             <li key={picture.id} className="gallery-item">
-              <img
-                src={picture.cloudinary_url}
-                alt="drawing"
-                className="gallery-item__image"
-              />
-                <Button
-                  text="Delete"
-                  mainTheme="Minecraft"
-                  branchTheme="Grave"
-                  func={async () => {
-                    await pictureStore.deleteRiseyPicture(picture.id);
-                    setPics(
-                      pics.filter(
-                        (pic: any) =>
-                          pic.cloudinary_url !== picture.cloudinary_url
-                      )
-                    );
-                  }}
+              {isTabletOrMobile ? (
+                <>
+                  <Tilt>
+                    <img
+                      src={picture.cloudinary_url}
+                      alt="drawing"
+                      className={`gallery-item__image image--risey`}
+                    />
+                  </Tilt>
+                </>
+              ) : (
+                <img
+                  src={picture.cloudinary_url}
+                  alt="drawing"
+                  className={`gallery-item__image image--risey`}
                 />
+              )}
+              <Button
+                text="Delete"
+                mainTheme="Minecraft"
+                branchTheme="Grave"
+                func={async () => {
+                  await pictureStore.deleteRiseyPicture(picture.id);
+                  setPics(
+                    pics.filter(
+                      (pic: any) =>
+                        pic.cloudinary_url !== picture.cloudinary_url
+                    )
+                  );
+                }}
+              />
             </li>
           ))}
       </ul>

@@ -13,6 +13,7 @@ export const GalleryCss = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     gap: 0.5rem;
 
     &:hover {
@@ -34,6 +35,10 @@ export const GalleryCss = styled.div`
   .gallery-item__button {
     position: sticky;
     bottom: 0;
+  }
+
+  .image--risey {
+    filter: drop-shadow(0px 0px 10px rgba(277 87 51 / 30%));
   }
 
   .gallery-item__button--delete {

@@ -7,6 +7,11 @@ import GalleryRisey from "components/Gallery/GalleryRisey";
 
 const GalleryPage: FC = () => {
   const owner = useContext(Context);
+  if (owner === "risey") {
+    document.body.style.backgroundColor = "#111"
+  } else {
+    document.body.style.backgroundColor = "#fff";
+  }
   return (
     <GalleryPageCss>
       <PictureForm />
