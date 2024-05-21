@@ -24,6 +24,7 @@ const Header: FC = () => {
     header?.classList.add("header--hush");
   } else if (location.pathname.includes("/risey-gallery")) {
     header?.classList.add("header--risey");
+    
   }
   return (
     <HeaderCss className="header">
@@ -65,12 +66,22 @@ const Header: FC = () => {
         </Modal>
       )}
       {isDesktopOrLaptop && (
-        <ul className="header-list">
+        <ul
+          className="header-list"
+          style={{
+            color: location.pathname.includes("/risey-gallery")
+              ? "whitesmoke"
+              : "",
+          }}
+        >
           <li className="header-list__item">
             <NavLink to="/">Home</NavLink>
           </li>
           <li className="header-list__item">
             <NavLink to="/hush-gallery">Hush's Gallery</NavLink>
+          </li>
+          <li className="header-list__item">
+            <NavLink to="/risey-gallery">Risey's Gallery</NavLink>
           </li>
           {/* <li className="header-list__item">
           <Link to="/risey-gallery">Risey's Gallery</Link>

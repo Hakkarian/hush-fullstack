@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import pictureStore from "../../store/PictureStore";
 import { GalleryCss } from "./Gallery.styled";
@@ -7,6 +7,7 @@ import Button from "shared/CustomButton/Button";
 import axios from "axios";
 import { useMediaQuery } from "react-responsive";
 import { Tilt } from "react-tilt";
+import { Context } from "components/general/App/App";
 
 export interface Picture {
   id: number;
@@ -21,6 +22,7 @@ const GalleryRisey: React.FC = observer(() => {
   const [page, setPage] = useState(1);
   const [images] = useState(pictureStore.riseyImages);
   const [fetching, setFetching] = useState(true);
+  const owner = useContext(Context);
 
   const isTabletOrMobile = useMediaQuery({
     query: "(max-width: 1224px)",
@@ -79,7 +81,7 @@ const GalleryRisey: React.FC = observer(() => {
 
   return (
     <GalleryCss>
-      <h2 style={{ textAlign: "center" }}>Gallery</h2>
+      <h2 style={{ textAlign: "center", color: "whitesmoke" }}>Gallery</h2>
       <ul className="gallery-list">
         {pictureStore.loading && <Loader />}
         {pics.length !== 0 &&
