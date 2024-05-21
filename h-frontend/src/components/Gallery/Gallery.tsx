@@ -110,10 +110,10 @@ const Gallery: React.FC = observer(() => {
               )}
               <Button
                 text="Delete"
-                mainTheme="Minecraft"
-                branchTheme="Grave"
+                mainTheme="Ocean"
+                branchTheme="Debris"
                 func={async () => {
-                  await pictureStore.deleteRiseyPicture(picture.id);
+                  await pictureStore.deletePicture(picture.id);
                   setPics(
                     pics.filter(
                       (pic: any) =>
